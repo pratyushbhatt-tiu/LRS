@@ -21,4 +21,15 @@ class Client extends Model
             'active' => 'boolean',
         ];
     }
+
+    // Relationships
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+
+    public function feeRules()
+    {
+        return $this->hasMany(FeeRule::class);
+    }
 }
