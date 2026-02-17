@@ -21,4 +21,9 @@ class DocType extends Model
             'active' => 'boolean',
         ];
     }
+
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
 }
