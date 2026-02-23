@@ -25,20 +25,20 @@
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <x-input-label for="file_no" :value="__('File Number')"
-                                        class="font-bold text-gray-700" />
-                                    <x-text-input id="file_no" name="file_no" type="text"
-                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm"
-                                        :value="old('file_no')" required autofocus />
-                                    <x-input-error class="mt-2" :messages="$errors->get('file_no')" />
+                                    <x-input-label :value="__('File Number')" class="font-bold text-gray-700" />
+                                    <div
+                                        class="mt-1 block w-full px-4 py-2 bg-gray-50 border border-gray-200 text-gray-500 rounded-xl shadow-sm italic">
+                                        {{ __('LRS-YYYY-XXXXXX (System Generated)') }}
+                                    </div>
+                                    <p class="mt-1 text-xs text-gray-500">The file number will be assigned automatically
+                                        upon creation.</p>
                                 </div>
                                 <div>
-                                    <x-input-label for="partner_ref_no" :value="__('Partner Reference No')"
-                                        class="font-bold text-gray-700" />
-                                    <x-text-input id="partner_ref_no" name="partner_ref_no" type="text"
-                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm"
-                                        :value="old('partner_ref_no')" />
-                                    <x-input-error class="mt-2" :messages="$errors->get('partner_ref_no')" />
+                                    <x-input-label :value="__('Partner Reference No')" class="font-bold text-gray-700" />
+                                    <div class="mt-1 block w-full px-4 py-2 bg-gray-50 border border-gray-200 text-gray-500 rounded-xl shadow-sm italic">
+                                        {{ __('REF-YYYY-XXXXXX (System Generated)') }}
+                                    </div>
+                                    <p class="mt-1 text-xs text-gray-500">The partner reference will be assigned automatically upon creation.</p>
                                 </div>
                                 <div>
                                     <x-input-label for="client_id" :value="__('Client')"
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <br>
                         <hr class="border-gray-100 mb-10">
 
                         <!-- Section: Document & Location -->
@@ -78,6 +78,7 @@
                                 </span>
                                 Document & Location
                             </h3>
+
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="md:col-span-2">
                                     <x-input-label for="doc_type_id" :value="__('Document Type')"
