@@ -24,7 +24,9 @@
             <div class="flex items-center gap-3">
                 @can('files.edit', $file)
                     <a href="{{ route('files.edit', $file) }}"
-                        class="px-4 py-2 bg-white border border-gray-300 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition-all shadow-sm">
+                        class="w-60 px-4 py-2 bg-gray-800 text-white 
+               rounded-2xl hover:bg-gray-700 
+               transition duration-200 shadow-md">
                         Edit Details
                     </a>
                 @endcan
@@ -36,7 +38,7 @@
 
                 @foreach($allowedTransitions as $nextStatus)
                     <button type="button" @click="$dispatch('open-modal', 'transition-modal-{{ $nextStatus }}')"
-                        class="px-4 py-2 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-md hover:shadow-indigo-500/50">
+                        class="px-4 py-2 bg-white border border-gray-300 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition-all shadow-sm">
                         Move to {{ config("constants.status_config.{$nextStatus}.label") }}
                     </button>
 
@@ -98,13 +100,16 @@
                                     class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Client</label>
                                 <div class="text-base font-bold text-gray-900">{{ $file->client->name }}</div>
                             </div>
+                            <br>
                             <div>
                                 <label
                                     class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Received
                                     Date</label>
                                 <div class="text-base font-bold text-gray-900">
-                                    {{ $file->received_date->format('F d, Y') }}</div>
+                                    {{ $file->received_date->format('F d, Y') }}
+                                </div>
                             </div>
+                            <br>
                             <div>
                                 <label
                                     class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Document
@@ -112,6 +117,7 @@
                                 <div class="text-base font-medium text-gray-700">{{ $file->docType->name }}
                                     ({{ $file->docType->code }})</div>
                             </div>
+                            <br>
                             <div>
                                 <label
                                     class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Recording
@@ -119,13 +125,16 @@
                                 <div class="text-base font-medium text-gray-700">{{ $file->recordingPurpose->name }}
                                 </div>
                             </div>
+                            <br>
                             <div>
                                 <label
                                     class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">County
                                     / State</label>
                                 <div class="text-base font-medium text-gray-700">{{ $file->county->name }},
-                                    {{ $file->state->name }}</div>
+                                    {{ $file->state->name }}
+                                </div>
                             </div>
+                            <br>
                             <div>
                                 <label
                                     class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Partner
@@ -133,6 +142,7 @@
                                 <div class="text-base font-medium text-gray-700">{{ $file->partner_ref_no ?: 'None' }}
                                 </div>
                             </div>
+                            <br>
                         </div>
                     </div>
 
@@ -217,7 +227,8 @@
                                                             <time
                                                                 datetime="{{ $history->created_at }}">{{ $history->created_at->format('M d, H:i') }}</time>
                                                             <div class="font-medium text-gray-500 mt-0.5">by
-                                                                {{ $history->changedBy->name }}</div>
+                                                                {{ $history->changedBy->name }}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -230,16 +241,18 @@
                     </div>
 
                     <!-- Quick Stats / Meta Info -->
-                    <div class="bg-indigo-600 rounded-2xl shadow-xl p-6 text-white overflow-hidden relative">
+                    <div class="bg-black-900 rounded-2xl shadow-xl p-6 text-black ">
                         <div class="relative z-10">
-                            <h4 class="text-indigo-100 font-bold uppercase tracking-widest text-xs mb-4">Processing Info
+                            <h4 class="text-black-400 font-bold uppercase  mb-4">Processing
+                                Info
                             </h4>
                             <div class="space-y-4">
-                                <div class="flex justify-between items-end border-b border-indigo-500 pb-2">
+                                <div class="flex justify-between items-end border-b border-3px-800 pb-2">
                                     <span class="text-sm opacity-80">Days Active</span>
-                                    <span class="text-2xl font-bold">{{ now()->diffInDays($file->created_at) }}</span>
+                                    <span
+                                        class="text-2xl font-bold">{{ number_format(max(0, now()->diffInDays($file->created_at))) }}</span>
                                 </div>
-                                <div class="flex justify-between items-end border-b border-indigo-500 pb-2">
+                                <div class="flex justify-between items-end border-b border-slate-800 pb-2">
                                     <span class="text-sm opacity-80">History Steps</span>
                                     <span class="text-2xl font-bold">{{ count($file->statusHistory) }}</span>
                                 </div>
@@ -247,7 +260,7 @@
                         </div>
                         <!-- Decorative Abstract Shape -->
                         <div
-                            class="absolute -right-12 -bottom-12 w-48 h-48 bg-indigo-500 rounded-full opacity-20 blur-2xl">
+                            class="absolute -right-12 -bottom-12 w-48 h-48 bg-red-600 rounded-full opacity-8 blur-3xl">
                         </div>
                     </div>
                 </div>
