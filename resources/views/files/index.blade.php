@@ -24,23 +24,20 @@
                     <div class="relative">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
                         <div class="relative flex items-center">
-                            <div class="absolute inset-y-0 left-6 flex items-center pointer-events-none text-gray-400">
-                                <svg class="h-5 w-5 ml-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                            </div>
+
                             <input type="text" name="search" value="{{ request('search') }}"
                                 placeholder="File No / Partner Ref..."
                                 class="w-full pl-20 pr-4 py-3 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl transition duration-200 shadow-sm">
                         </div>
                     </div>
-
+                    <br>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
                         <select name="status"
                             class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl transition duration-200">
-                            <option value="">All Statuses</option>
+                            <option value=""
+                                class="w-full pl-20 pr-4 py-3 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl transition duration-200 shadow-sm">
+                                All Statuses</option>
                             @foreach(config('constants.file_statuses') as $status)
                                 <option value="{{ $status }}" {{ request('status') == $status ? 'selected' : '' }}>
                                     {{ config("constants.status_config.{$status}.label") }}
@@ -48,7 +45,7 @@
                             @endforeach
                         </select>
                     </div>
-
+                    <br>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Client</label>
                         <select name="client_id"
@@ -62,13 +59,16 @@
                         </select>
                     </div>
 
-                    <div class="flex items-end gap-2">
-                        <button type="submit"
-                            class="flex-1 px-4 py-2 bg-gray-800 text-white rounded-xl hover:bg-gray-700 transition duration-200 shadow-md transform hover:-translate-y-0.5">
+                    <div class="flex justify-center gap-4 mt-6">
+                        <button type="submit" class=" px-4 py-2 bg-gray-800 text-white 
+               rounded-2xl hover:bg-gray-700 
+               transition duration-200 shadow-md">
                             Filter
                         </button>
-                        <a href="{{ route('files.index') }}"
-                            class="px-4 py-2 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition duration-200 shadow-sm transform hover:-translate-y-0.5">
+
+                        <a href="{{ route('files.index') }}" class="text-center px-4 py-2 bg-gray-200 text-gray-700 
+               rounded-xl hover:bg-gray-300 
+               transition duration-200 shadow-sm">
                             Reset
                         </a>
                     </div>
