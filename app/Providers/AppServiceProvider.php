@@ -26,5 +26,6 @@ class AppServiceProvider extends ServiceProvider
         \Illuminate\Support\Facades\Gate::policy(\App\Models\County::class, \App\Policies\CountyPolicy::class);
         \Illuminate\Support\Facades\Gate::policy(\App\Models\City::class, \App\Policies\CityPolicy::class);
         \Illuminate\Support\Facades\Gate::policy(\App\Models\FeeRule::class, \App\Policies\FeeRulePolicy::class);
+        \Illuminate\Support\Facades\Gate::policy(\App\Models\File::class, \App\Policies\FilePolicy::class);
     }
 }

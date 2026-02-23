@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create New File') }}
+            {{ __('Edit File') }}: #{{ $file->file_no }}
         </h2>
     </x-slot>
 
@@ -9,8 +9,9 @@
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white/80 backdrop-blur-md overflow-hidden shadow-2xl sm:rounded-2xl border border-white/20">
                 <div class="p-8">
-                    <form action="{{ route('files.store') }}" method="POST">
+                    <form action="{{ route('files.update', $file) }}" method="POST">
                         @csrf
+                        @method('PUT')
 
                         <!-- Section: Basic Information -->
                         <div class="mb-10">
@@ -18,7 +19,7 @@
                                 <span class="bg-indigo-100 text-indigo-600 p-2 rounded-lg mr-3">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                     </svg>
                                 </span>
                                 Basic Information
@@ -29,7 +30,7 @@
                                         class="font-bold text-gray-700" />
                                     <x-text-input id="file_no" name="file_no" type="text"
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm"
-                                        :value="old('file_no')" required autofocus />
+                                        :value="old('file_no', $file->file_no)" required />
                                     <x-input-error class="mt-2" :messages="$errors->get('file_no')" />
                                 </div>
                                 <div>
@@ -37,7 +38,7 @@
                                         class="font-bold text-gray-700" />
                                     <x-text-input id="partner_ref_no" name="partner_ref_no" type="text"
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm"
-                                        :value="old('partner_ref_no')" />
+                                        :value="old('partner_ref_no', $file->partner_ref_no)" />
                                     <x-input-error class="mt-2" :messages="$errors->get('partner_ref_no')" />
                                 </div>
                                 <div>
@@ -47,7 +48,7 @@
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
                                         <option value="">Select Client</option>
                                         @foreach($clients as $client)
-                                            <option value="{{ $client->id }}" {{ old('client_id') == $client->id ? 'selected' : '' }}>
+                                            <option value="{{ $client->id }}" {{ old('client_id', $file->client_id) == $client->id ? 'selected' : '' }}>
                                                 {{ $client->name }}
                                             </option>
                                         @endforeach
@@ -59,7 +60,7 @@
                                         class="font-bold text-gray-700" />
                                     <x-text-input id="received_date" name="received_date" type="date"
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm"
-                                        :value="old('received_date', now()->format('Y-m-d'))" required />
+                                        :value="old('received_date', $file->received_date->format('Y-m-d'))" required />
                                     <x-input-error class="mt-2" :messages="$errors->get('received_date')" />
                                 </div>
                             </div>
@@ -86,7 +87,7 @@
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
                                         <option value="">Select Document Type</option>
                                         @foreach($docTypes as $docType)
-                                            <option value="{{ $docType->id }}" {{ old('doc_type_id') == $docType->id ? 'selected' : '' }}>
+                                            <option value="{{ $docType->id }}" {{ old('doc_type_id', $file->doc_type_id) == $docType->id ? 'selected' : '' }}>
                                                 {{ $docType->name }} ({{ $docType->code }})
                                             </option>
                                         @endforeach
@@ -100,7 +101,7 @@
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
                                         <option value="">Select Purpose</option>
                                         @foreach($purposes as $purpose)
-                                            <option value="{{ $purpose->id }}" {{ old('recording_purpose_id') == $purpose->id ? 'selected' : '' }}>
+                                            <option value="{{ $purpose->id }}" {{ old('recording_purpose_id', $file->recording_purpose_id) == $purpose->id ? 'selected' : '' }}>
                                                 {{ $purpose->name }}
                                             </option>
                                         @endforeach
@@ -114,7 +115,7 @@
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
                                         <option value="">Select State</option>
                                         @foreach($states as $state)
-                                            <option value="{{ $state->id }}" {{ old('state_id') == $state->id ? 'selected' : '' }}>
+                                            <option value="{{ $state->id }}" {{ old('state_id', $file->state_id) == $state->id ? 'selected' : '' }}>
                                                 {{ $state->name }}
                                             </option>
                                         @endforeach
@@ -128,7 +129,7 @@
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
                                         <option value="">Select County</option>
                                         @foreach($counties as $county)
-                                            <option value="{{ $county->id }}" {{ old('county_id') == $county->id ? 'selected' : '' }}>
+                                            <option value="{{ $county->id }}" {{ old('county_id', $file->county_id) == $county->id ? 'selected' : '' }}>
                                                 {{ $county->name }} ({{ $county->state->name }})
                                             </option>
                                         @endforeach
@@ -140,13 +141,13 @@
 
                         <!-- Actions -->
                         <div class="flex items-center justify-end gap-4 pt-6 border-t border-gray-100">
-                            <a href="{{ route('files.index') }}"
+                            <a href="{{ route('files.show', $file) }}"
                                 class="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition-all duration-200">
                                 Cancel
                             </a>
                             <button type="submit"
-                                class="px-8 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition-all duration-200 shadow-lg hover:shadow-indigo-500/50 transform hover:-translate-y-0.5">
-                                Create File
+                                class="px-8 py-2.5 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all duration-200 shadow-lg hover:shadow-indigo-500/50 transform hover:-translate-y-0.5">
+                                Update File
                             </button>
                         </div>
                     </form>
@@ -154,14 +155,4 @@
             </div>
         </div>
     </div>
-
-    @push('scripts')
-        <script>
-            // Future scope: Dynamic county filtering based on state selection
-            document.getElementById('state_id').addEventListener('change', function () {
-                const stateId = this.value;
-                // Add AJAX call here to filter counties
-            });
-        </script>
-    @endpush
 </x-app-layout>

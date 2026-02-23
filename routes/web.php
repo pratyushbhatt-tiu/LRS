@@ -19,16 +19,17 @@ Route::middleware('auth')->group(function () {
 
 // Files Module - Operations, QC, Accounting roles
 Route::middleware(['auth', 'permission:files.view'])->prefix('files')->name('files.')->group(function () {
-    Route::get('/', function () {
-        return view('files.index');
-    })->name('index');
-    Route::get('/create', function () {
-        return view('files.create');
-    })->middleware('permission:files.create')->name('create');
+    Route::get('/', [App\Http\Controllers\FileController::class, 'index'])->name('index');
+    Route::get('/create', [App\Http\Controllers\FileController::class, 'create'])->middleware('permission:files.create')->name('create');
+    Route::post('/', [App\Http\Controllers\FileController::class, 'store'])->middleware('permission:files.create')->name('store');
     Route::get('/import', function () {
         return view('files.import');
     })->middleware('role:Operations,Admin')->name('import');
-    // More file routes will be added in Phase 4
+    Route::get('/{file}', [App\Http\Controllers\FileController::class, 'show'])->name('show');
+    Route::get('/{file}/edit', [App\Http\Controllers\FileController::class, 'edit'])->middleware('permission:files.edit')->name('edit');
+    Route::put('/{file}', [App\Http\Controllers\FileController::class, 'update'])->middleware('permission:files.edit')->name('update');
+    Route::delete('/{file}', [App\Http\Controllers\FileController::class, 'destroy'])->middleware('role:Admin')->name('destroy');
+    Route::post('/{file}/transition', [App\Http\Controllers\FileController::class, 'transition'])->name('transition');
 });
 
 // QC Module - QC role only
