@@ -46,4 +46,20 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relationships
+    public function attachments()
+    {
+        return $this->hasMany(Attachment::class, 'uploaded_by');
+    }
+
+    public function auditLogs()
+    {
+        return $this->hasMany(AuditLog::class);
+    }
+
+    public function approvedFeeLines()
+    {
+        return $this->hasMany(FeeLine::class, 'approved_by');
+    }
 }

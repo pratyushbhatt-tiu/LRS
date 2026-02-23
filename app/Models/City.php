@@ -34,4 +34,9 @@ class City extends Model
     {
         return $this->belongsTo(County::class);
     }
+
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
 }

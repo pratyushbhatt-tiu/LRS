@@ -113,4 +113,15 @@ class ClientController extends Controller
             ->route('masters.clients.index')
             ->with('success', 'Client restored successfully.');
     }
+
+    /**
+     * Toggle the active status of the specified client.
+     */
+    public function toggleActive(Client $client)
+    {
+        $this->authorize('update', $client);
+        $client->update(['active' => !$client->active]);
+        $status = $client->fresh()->active ? 'activated' : 'deactivated';
+        return back()->with('success', "Client {$status} successfully.");
+    }
 }

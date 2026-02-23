@@ -24,7 +24,7 @@
             <x-masters.search-filter :search="request('search', '')" :status="request('status', 'all')"
                 :withTrashed="request()->boolean('with_trashed')" />
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
@@ -58,16 +58,31 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $docType->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        @if($docType->active)
-                                            <span
-                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                        @can('update', $docType)
+                                                                    <form method="POST"
+                                                                        action="{{ route('masters.doc-types.toggle-active', $docType) }}"
+                                                                        class="inline">
+                                                                        @csrf
+                                                                        <button type="submit"
+                                                                            title="{{ $docType->active ? 'Click to deactivate' : 'Click to activate' }}"
+                                                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full cursor-pointer transition-colors
+                                                                                                                        {{ $docType->active
+                                            ? 'bg-green-100 text-green-800 hover:bg-red-100 hover:text-red-800'
+                                            : 'bg-gray-100 text-gray-800 hover:bg-green-100 hover:text-green-800' }}">
+                                                                            {{ $docType->active ? 'Active' : 'Inactive' }}
+                                                                        </button>
+                                                                    </form>
                                         @else
                                             <span
-                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Inactive</span>
-                                        @endif
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                                                {{ $docType->active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                                                {{ $docType->active ? 'Active' : 'Inactive' }}
+                                            </span>
+                                        @endcan
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ $docType->files_count }}</td>
+                                        {{ $docType->files_count }}
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <div class="flex justify-end gap-2">
                                             @if($docType->trashed())
@@ -77,7 +92,7 @@
                                                         class="inline">
                                                         @csrf
                                                         <button type="submit" class="text-green-600 hover:text-green-900"
-                                                            onclick="return confirm('Restore this document type?')">Restore</button>
+                                                            onclick="return confirm('Are you sure you want to restore this document type?')">Restore</button>
                                                     </form>
                                                 @endcan
                                             @else
@@ -90,7 +105,7 @@
                                                         class="inline">
                                                         @csrf @method('DELETE')
                                                         <button type="submit" class="text-red-600 hover:text-red-900"
-                                                            onclick="return confirm('Delete this document type?')">Delete</button>
+                                                            onclick="return confirm('Are you sure you want to delete this document type?')">Delete</button>
                                                     </form>
                                                 @endcan
                                             @endif

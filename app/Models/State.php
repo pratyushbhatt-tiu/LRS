@@ -32,4 +32,9 @@ class State extends Model
     {
         return $this->hasMany(City::class);
     }
+
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
 }

@@ -59,9 +59,8 @@
                             @enderror
                         </div>
 
-                        <!-- Active Status -->
                         <div class="mb-6">
-                            <label class="flex items-center cursor-pointer">
+                            <label class="flex items-center {{ $client->trashed() ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer' }}">
                                 <input 
                                     type="checkbox" 
                                     name="active" 

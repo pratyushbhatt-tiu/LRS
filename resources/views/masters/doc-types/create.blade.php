@@ -29,7 +29,8 @@
                         </div>
                         <div class="mb-6">
                             <label class="flex items-center cursor-pointer">
-                                <input type="checkbox" name="active" value="1" {{ old('active', true) ? 'checked' : '' }}
+                                <input type="checkbox" name="active" value="1"
+                                    {{ old('active', '1') == '1' ? 'checked' : '' }}
                                     class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                                 <span class="ml-2 text-sm text-gray-700">Active</span>
                             </label>

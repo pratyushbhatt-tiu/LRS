@@ -73,4 +73,12 @@ class DocTypeController extends Controller
         $docType->restore();
         return redirect()->route('masters.doc-types.index')->with('success', 'Document Type restored successfully.');
     }
+
+    public function toggleActive(DocType $docType)
+    {
+        $this->authorize('update', $docType);
+        $docType->update(['active' => !$docType->active]);
+        $status = $docType->fresh()->active ? 'activated' : 'deactivated';
+        return back()->with('success', "Document Type {$status} successfully.");
+    }
 }

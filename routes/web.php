@@ -60,30 +60,37 @@ Route::middleware(['auth', 'role:Admin'])->prefix('masters')->name('masters.')->
     // Clients
     Route::resource('clients', App\Http\Controllers\Masters\ClientController::class);
     Route::post('clients/{id}/restore', [App\Http\Controllers\Masters\ClientController::class, 'restore'])->name('clients.restore');
+    Route::post('clients/{client}/toggle-active', [App\Http\Controllers\Masters\ClientController::class, 'toggleActive'])->name('clients.toggle-active');
 
     // Doc Types
     Route::resource('doc-types', App\Http\Controllers\Masters\DocTypeController::class);
     Route::post('doc-types/{id}/restore', [App\Http\Controllers\Masters\DocTypeController::class, 'restore'])->name('doc-types.restore');
+    Route::post('doc-types/{docType}/toggle-active', [App\Http\Controllers\Masters\DocTypeController::class, 'toggleActive'])->name('doc-types.toggle-active');
 
     // Recording Purposes
     Route::resource('recording-purposes', App\Http\Controllers\Masters\RecordingPurposeController::class);
     Route::post('recording-purposes/{id}/restore', [App\Http\Controllers\Masters\RecordingPurposeController::class, 'restore'])->name('recording-purposes.restore');
+    Route::post('recording-purposes/{recordingPurpose}/toggle-active', [App\Http\Controllers\Masters\RecordingPurposeController::class, 'toggleActive'])->name('recording-purposes.toggle-active');
 
     // States
     Route::resource('states', App\Http\Controllers\Masters\StateController::class);
     Route::post('states/{id}/restore', [App\Http\Controllers\Masters\StateController::class, 'restore'])->name('states.restore');
+    Route::post('states/{state}/toggle-active', [App\Http\Controllers\Masters\StateController::class, 'toggleActive'])->name('states.toggle-active');
 
     // Counties
     Route::resource('counties', App\Http\Controllers\Masters\CountyController::class);
     Route::post('counties/{id}/restore', [App\Http\Controllers\Masters\CountyController::class, 'restore'])->name('counties.restore');
+    Route::post('counties/{county}/toggle-active', [App\Http\Controllers\Masters\CountyController::class, 'toggleActive'])->name('counties.toggle-active');
 
     // Cities
     Route::resource('cities', App\Http\Controllers\Masters\CityController::class);
     Route::post('cities/{id}/restore', [App\Http\Controllers\Masters\CityController::class, 'restore'])->name('cities.restore');
+    Route::post('cities/{city}/toggle-active', [App\Http\Controllers\Masters\CityController::class, 'toggleActive'])->name('cities.toggle-active');
 
     // Fee Rules
     Route::resource('fee-rules', App\Http\Controllers\Masters\FeeRuleController::class);
     Route::post('fee-rules/{id}/restore', [App\Http\Controllers\Masters\FeeRuleController::class, 'restore'])->name('fee-rules.restore');
+    Route::post('fee-rules/{feeRule}/toggle-active', [App\Http\Controllers\Masters\FeeRuleController::class, 'toggleActive'])->name('fee-rules.toggle-active');
 });
 
 // Reports Module - All authenticated users with reports.view permission

@@ -27,29 +27,29 @@
                 :withTrashed="request()->boolean('with_trashed')" />
 
             <!-- Clients Table -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4">
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col"
-                                    class="px-6 py-5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Code
                                 </th>
                                 <th scope="col"
-                                    class="px-6 py-5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Name
                                 </th>
                                 <th scope="col"
-                                    class="px-6 py-5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Status
                                 </th>
                                 <th scope="col"
-                                    class="px-6 py-5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Files Count
                                 </th>
                                 <th scope="col"
-                                    class="px-6 py-5 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Actions
                                 </th>
                             </tr>
@@ -70,17 +70,26 @@
                                         {{ $client->name }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        @if($client->active)
-                                            <span
-                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                Active
-                                            </span>
+                                        @can('update', $client)
+                                                                    <form method="POST" action="{{ route('masters.clients.toggle-active', $client) }}"
+                                                                        class="inline">
+                                                                        @csrf
+                                                                        <button type="submit"
+                                                                            title="{{ $client->active ? 'Click to deactivate' : 'Click to activate' }}"
+                                                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full cursor-pointer transition-colors
+                                                                                                                        {{ $client->active
+                                            ? 'bg-green-100 text-green-800 hover:bg-red-100 hover:text-red-800'
+                                            : 'bg-gray-100 text-gray-800 hover:bg-green-100 hover:text-green-800' }}">
+                                                                            {{ $client->active ? 'Active' : 'Inactive' }}
+                                                                        </button>
+                                                                    </form>
                                         @else
                                             <span
-                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                                Inactive
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                                                {{ $client->active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                                                {{ $client->active ? 'Active' : 'Inactive' }}
                                             </span>
-                                        @endif
+                                        @endcan
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         {{ $client->files_count }}

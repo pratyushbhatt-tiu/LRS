@@ -27,6 +27,6 @@ class StoreDocTypeRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge(['active' => $this->has('active') ? true : false]);
+        $this->merge(['active' => filter_var($this->input('active', false), FILTER_VALIDATE_BOOLEAN)]);
     }
 }
