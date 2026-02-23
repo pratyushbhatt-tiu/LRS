@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FileStatusHistory extends Model
 {
+    protected $table = 'file_status_history';
     const UPDATED_AT = null;
 
     protected $fillable = [
