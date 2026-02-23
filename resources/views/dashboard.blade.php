@@ -155,7 +155,7 @@
                         <div class="space-y-3">
                             @can('files.create')
                                 <a href="{{ route('files.create') }}"
-                                    class="flex items-center p-3 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition">
+                                    class="flex items-center p-3 hover:bg-indigo-100 rounded-lg transition">
                                     <svg class="h-5 w-5 text-indigo-600 mr-3" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -176,7 +176,7 @@
                                 <span class="text-sm font-medium text-gray-900">Bulk Import CSV</span>
                             </a>
                             @endrole
-
+                            <br>                  
                             @role('QC')
                             <a href="{{ route('qc.pending') }}"
                                 class="flex items-center p-3 bg-yellow-50 hover:bg-yellow-100 rounded-lg transition">
