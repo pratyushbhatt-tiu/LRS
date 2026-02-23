@@ -20,13 +20,11 @@ class StoreFileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file_no' => ['required', 'string', 'max:50', 'unique:files,file_no'],
             'client_id' => ['required', 'exists:clients,id'],
             'doc_type_id' => ['required', 'exists:doc_types,id'],
             'recording_purpose_id' => ['required', 'exists:recording_purposes,id'],
             'state_id' => ['required', 'exists:states,id'],
             'county_id' => ['required', 'exists:counties,id'],
-            'partner_ref_no' => ['nullable', 'string', 'max:100'],
             'received_date' => ['required', 'date'],
         ];
     }
