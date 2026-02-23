@@ -64,7 +64,42 @@ class FileController extends Controller
     {
         $this->authorize('create', File::class);
         return DB::transaction(function () use ($request) {
+            // Generate Sequence Prefixes
+            $year = now()->year;
+            $lrsPrefix = "LRS-{$year}-";
+            $refPrefix = "REF-{$year}-";
+
+            // 1. Generate File Number: LRS-YYYY-XXXXXX
+            $lastFile = File::where('file_no', 'like', $lrsPrefix . '%')
+                ->orderBy('file_no', 'desc')
+                ->lockForUpdate()
+                ->first();
+
+            if ($lastFile) {
+                $lastSequence = (int) substr($lastFile->file_no, strlen($lrsPrefix));
+                $newSequence = str_pad($lastSequence + 1, 6, '0', STR_PAD_LEFT);
+            } else {
+                $newSequence = '000001';
+            }
+            $fileNo = $lrsPrefix . $newSequence;
+
+            // 2. Generate Partner Reference: REF-YYYY-XXXXXX
+            $lastRef = File::where('partner_ref_no', 'like', $refPrefix . '%')
+                ->orderBy('partner_ref_no', 'desc')
+                ->lockForUpdate()
+                ->first();
+
+            if ($lastRef) {
+                $lastRefSequence = (int) substr($lastRef->partner_ref_no, strlen($refPrefix));
+                $newRefSequence = str_pad($lastRefSequence + 1, 6, '0', STR_PAD_LEFT);
+            } else {
+                $newRefSequence = '000001';
+            }
+            $partnerRefNo = $refPrefix . $newRefSequence;
+
             $file = File::create(array_merge($request->validated(), [
+                'file_no' => $fileNo,
+                'partner_ref_no' => $partnerRefNo,
                 'current_status' => config('constants.file_statuses.CHECK_IN'),
             ]));
 
@@ -73,11 +108,11 @@ class FileController extends Controller
                 'from_status' => null,
                 'to_status' => $file->current_status,
                 'changed_by' => Auth::id(),
-                'notes' => 'File created',
+                'notes' => 'File checked in with system generated numbers',
             ]);
 
             return redirect()->route('files.show', $file)
-                ->with('success', 'File created successfully.');
+                ->with('success', "File {$fileNo} created with Reference {$partnerRefNo}.");
         });
     }
 
