@@ -146,7 +146,7 @@
                                 Cancel
                             </a>
                             <button type="submit"
-                                class="px-8 py-2.5 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all duration-200 shadow-lg hover:shadow-indigo-500/50 transform hover:-translate-y-0.5">
+                                class="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition-all duration-200">
                                 Update File
                             </button>
                         </div>
