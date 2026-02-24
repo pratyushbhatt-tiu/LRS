@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
+/**
+ * @property float|null $total_amount
+ */
 class FeeLine extends Model
 {
     protected $fillable = [
@@ -52,14 +55,14 @@ class FeeLine extends Model
     protected function formattedTotalAmount(): Attribute
     {
         return Attribute::make(
-            get: fn() => '$' . number_format($this->total_amount, 2)
+            get: fn() => '$' . number_format((float) $this->total_amount, 2)
         );
     }
 
     protected function formattedUnitPrice(): Attribute
     {
         return Attribute::make(
-            get: fn() => '$' . number_format($this->unit_price, 2)
+            get: fn() => '$' . number_format((float) $this->unit_price, 2)
         );
     }
 
@@ -78,7 +81,7 @@ class FeeLine extends Model
     protected static function booted(): void
     {
         static::saving(function (FeeLine $feeLine) {
-            $feeLine->total_amount = (float) $feeLine->quantity * (float) $feeLine->unit_price;
+            $feeLine->total_amount = (float) ((float) $feeLine->quantity * (float) $feeLine->unit_price);
         });
     }
 }
