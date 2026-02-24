@@ -42,10 +42,15 @@ class FileController extends Controller
             $query->where('client_id', $request->client_id);
         }
 
+        if ($request->filled('doc_type_id')) {
+            $query->where('doc_type_id', $request->doc_type_id);
+        }
+
         $files = $query->latest()->paginate(15)->withQueryString();
         $clients = Client::where('active', true)->orderBy('name')->get();
+        $docTypes = DocType::where('active', true)->orderBy('name')->get();
 
-        return view('files.index', compact('files', 'clients'));
+        return view('files.index', compact('files', 'clients', 'docTypes'));
     }
 
     public function create()

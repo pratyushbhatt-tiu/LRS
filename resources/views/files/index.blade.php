@@ -6,11 +6,14 @@
             </h2>
             @can('files.create')
                 <a href="{{ route('files.create') }}"
-                    class="inline-flex items-center px-4 py-2 bg-white border-2 border-slate-900 rounded-md font-bold text-xs text-slate-900 uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all duration-200 shadow-md">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="px-4 py-2 bg-gray-800 text-white 
+               rounded-2xl hover:bg-gray-700 
+               transition duration-200 shadow-md">
+               
+                    <!-- <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                    {{ __('New File') }}
+                    </svg> -->
+                    {{ __('Add New File') }}
                 </a>
             @endcan
         </div>

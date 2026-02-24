@@ -142,11 +142,13 @@
                         <!-- Actions -->
                         <div class="flex items-center justify-end gap-4 pt-6 border-t border-gray-100">
                             <a href="{{ route('files.index') }}"
-                                class="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition-all duration-200">
+                                class="px-4 py-2 bg-white border border-gray-300 rounded-xl font-bold text-gray-900 hover:bg-gray-70 transition-all shadow-sm">
                                 Cancel
                             </a>
                             <button type="submit"
-                                class="px-8 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition-all duration-200 shadow-lg hover:shadow-indigo-500/50 transform hover:-translate-y-0.5">
+                                class="w-60 px-4 py-2 bg-gray-800 text-white 
+               rounded-2xl hover:bg-gray-700 
+               transition duration-200 shadow-md">
                                 Create File
                             </button>
                         </div>

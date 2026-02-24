@@ -45,8 +45,8 @@
                                     <x-input-label for="client_id" :value="__('Client')"
                                         class="font-bold text-gray-700" />
                                     <select id="client_id" name="client_id"
-                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="">Select Client</option>
+                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200 {{ old('client_id', $file->client_id) ? 'text-gray-900' : 'text-gray-400' }}">
+                                        <option value="" disabled selected hidden>Select client</option>
                                         @foreach($clients as $client)
                                             <option value="{{ $client->id }}" {{ old('client_id', $file->client_id) == $client->id ? 'selected' : '' }}>
                                                 {{ $client->name }}
@@ -84,8 +84,8 @@
                                     <x-input-label for="doc_type_id" :value="__('Document Type')"
                                         class="font-bold text-gray-700" />
                                     <select id="doc_type_id" name="doc_type_id"
-                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="">Select Document Type</option>
+                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200 {{ old('doc_type_id', $file->doc_type_id) ? 'text-gray-900' : 'text-gray-400' }}">
+                                        <option value="" disabled selected hidden>Select document type</option>
                                         @foreach($docTypes as $docType)
                                             <option value="{{ $docType->id }}" {{ old('doc_type_id', $file->doc_type_id) == $docType->id ? 'selected' : '' }}>
                                                 {{ $docType->name }} ({{ $docType->code }})
@@ -98,8 +98,8 @@
                                     <x-input-label for="recording_purpose_id" :value="__('Recording Purpose')"
                                         class="font-bold text-gray-700" />
                                     <select id="recording_purpose_id" name="recording_purpose_id"
-                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="">Select Purpose</option>
+                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200 {{ old('recording_purpose_id', $file->recording_purpose_id) ? 'text-gray-900' : 'text-gray-400' }}">
+                                        <option value="" disabled selected hidden>Select purpose</option>
                                         @foreach($purposes as $purpose)
                                             <option value="{{ $purpose->id }}" {{ old('recording_purpose_id', $file->recording_purpose_id) == $purpose->id ? 'selected' : '' }}>
                                                 {{ $purpose->name }}
@@ -112,8 +112,8 @@
                                     <x-input-label for="state_id" :value="__('State')"
                                         class="font-bold text-gray-700" />
                                     <select id="state_id" name="state_id"
-                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="">Select State</option>
+                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200 {{ old('state_id', $file->state_id) ? 'text-gray-900' : 'text-gray-400' }}">
+                                        <option value="" disabled selected hidden>Select state</option>
                                         @foreach($states as $state)
                                             <option value="{{ $state->id }}" {{ old('state_id', $file->state_id) == $state->id ? 'selected' : '' }}>
                                                 {{ $state->name }}
@@ -126,8 +126,8 @@
                                     <x-input-label for="county_id" :value="__('County')"
                                         class="font-bold text-gray-700" />
                                     <select id="county_id" name="county_id"
-                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="">Select County</option>
+                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200 {{ old('county_id', $file->county_id) ? 'text-gray-900' : 'text-gray-400' }}">
+                                        <option value="" disabled selected hidden>Select county</option>
                                         @foreach($counties as $county)
                                             <option value="{{ $county->id }}" {{ old('county_id', $file->county_id) == $county->id ? 'selected' : '' }}>
                                                 {{ $county->name }} ({{ $county->state->name }})
@@ -142,11 +142,12 @@
                         <!-- Actions -->
                         <div class="flex items-center justify-end gap-4 pt-6 border-t border-gray-100">
                             <a href="{{ route('files.show', $file) }}"
-                                class="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition-all duration-200">
+                                class="px-4 py-2 bg-white border border-gray-800 rounded-xl font-bold text-gray-900 hover:bg-gray-70 transition-all shadow-sm">
                                 Cancel
                             </a>
-                            <button type="submit"
-                                class="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition-all duration-200">
+                            <button type="submit" class="w-60 px-4 py-2 bg-gray-800 text-white 
+               rounded-2xl hover:bg-gray-700 
+               transition duration-200 shadow-md">
                                 Update File
                             </button>
                         </div>
