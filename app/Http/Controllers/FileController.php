@@ -10,6 +10,7 @@ use App\Models\State;
 use App\Models\County;
 use App\Models\FileStatusHistory;
 use App\Http\Requests\StoreFileRequest;
+use App\Services\AuditService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -69,12 +70,10 @@ class FileController extends Controller
     {
         $this->authorize('create', File::class);
         return DB::transaction(function () use ($request) {
-            // Generate Sequence Prefixes
             $year = now()->year;
             $lrsPrefix = "LRS-{$year}-";
             $refPrefix = "REF-{$year}-";
 
-            // 1. Generate File Number: LRS-YYYY-XXXXXX
             $lastFile = File::where('file_no', 'like', $lrsPrefix . '%')
                 ->orderBy('file_no', 'desc')
                 ->lockForUpdate()
@@ -88,7 +87,6 @@ class FileController extends Controller
             }
             $fileNo = $lrsPrefix . $newSequence;
 
-            // 2. Generate Partner Reference: REF-YYYY-XXXXXX
             $lastRef = File::where('partner_ref_no', 'like', $refPrefix . '%')
                 ->orderBy('partner_ref_no', 'desc')
                 ->lockForUpdate()
@@ -115,6 +113,8 @@ class FileController extends Controller
                 'changed_by' => Auth::id(),
                 'notes' => 'File checked in with system generated numbers',
             ]);
+
+            AuditService::log('FILE_CREATED', $file, [], $file->toArray());
 
             return redirect()->route('files.show', $file)
                 ->with('success', "File {$fileNo} created with Reference {$partnerRefNo}.");
@@ -143,7 +143,11 @@ class FileController extends Controller
     public function update(StoreFileRequest $request, File $file)
     {
         $this->authorize('update', $file);
+
+        $oldValues = $file->toArray();
         $file->update($request->validated());
+
+        AuditService::log('FILE_UPDATED', $file, $oldValues, $file->fresh()->toArray());
 
         return redirect()->route('files.show', $file)
             ->with('success', 'File updated successfully.');
@@ -152,7 +156,11 @@ class FileController extends Controller
     public function destroy(File $file)
     {
         $this->authorize('delete', $file);
+
+        $oldValues = $file->toArray();
         $file->delete();
+
+        AuditService::log('FILE_DELETED', $file, $oldValues, []);
 
         return redirect()->route('files.index')
             ->with('success', 'File deleted successfully.');
@@ -182,6 +190,13 @@ class FileController extends Controller
                 'from_status' => $oldStatus,
                 'to_status' => $newStatus,
                 'changed_by' => Auth::id(),
+                'notes' => $request->notes,
+            ]);
+
+            AuditService::log('STATUS_CHANGED', $file, [
+                'status' => $oldStatus,
+            ], [
+                'status' => $newStatus,
                 'notes' => $request->notes,
             ]);
 
