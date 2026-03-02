@@ -87,12 +87,12 @@
                         </div>
                         <div class="flex gap-3">
                             <a href="{{ route('masters.doc-types.index') }}"
-                                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                class="px-4 py-2 bg-white border border-gray-300 rounded-xl font-bold text-gray-900 hover:bg-gray-70 transition-all shadow-sm">
                                 Cancel
                             </a>
                             @if(!$docType->trashed())
                                 <button type="submit" form="edit-form"
-                                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                    class="px-4 py-2 bg-gray-800 text-white rounded-2xl hover:bg-gray-700 transition duration-200 shadow-md">
                                     Save
                                 </button>
                             @endif

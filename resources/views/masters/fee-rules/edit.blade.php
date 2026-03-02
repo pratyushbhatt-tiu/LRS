@@ -183,7 +183,7 @@
                                     </button>
                                 @else
                                     <button type="button" form="delete-form"
-                                        class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                                        class="px-4 py-2 bg-red-600 text-white  hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                                         onclick="return confirm('Are you sure you want to delete this fee rule?')">
                                         Delete Rule
                                     </button>
@@ -193,12 +193,12 @@
                             <!-- Right Side: Cancel/Save -->
                             <div class="flex gap-3">
                                 <a href="{{ route('masters.fee-rules.index') }}"
-                                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                    class="px-4 py-2 bg-white border border-gray-800 rounded-xl font-bold text-gray-900 hover:bg-gray-70 transition-all shadow-sm">
                                     Cancel
                                 </a>
                                 @if(!$feeRule->trashed())
                                     <button type="submit"
-                                        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                        class="px-4 py-2 bg-gray-800 text-white rounded-2xl hover:bg-gray-700 transition duration-200 shadow-md">
                                         Update Rule
                                     </button>
                                 @endif

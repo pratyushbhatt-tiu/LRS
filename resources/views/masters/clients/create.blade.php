@@ -70,11 +70,13 @@
                         <!-- Form Actions -->
                         <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-200">
                             <a href="{{ route('masters.clients.index') }}"
-                                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                class="px-4 py-2 bg-white border border-gray-300 rounded-xl font-bold text-gray-900 hover:bg-gray-70 transition-all shadow-sm">
                                 Cancel
                             </a>
                             <button type="submit"
-                                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                class="px-4 py-2 bg-gray-800 text-white 
+               rounded-2xl hover:bg-gray-700 
+               transition duration-200 shadow-md">
                                 Create Client
                             </button>
                         </div>

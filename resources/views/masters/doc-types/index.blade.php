@@ -6,7 +6,9 @@
             </h2>
             @can('create', App\Models\DocType::class)
                 <a href="{{ route('masters.doc-types.create') }}"
-                    class="px-4 py-2 bg-indigo-600 text-black rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    class="px-4 py-2 bg-gray-800 text-white 
+               rounded-2xl hover:bg-gray-700 
+               transition duration-200 shadow-md">
                     Add New Doc Type
                 </a>
             @endcan
