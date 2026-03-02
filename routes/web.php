@@ -102,4 +102,9 @@ Route::middleware(['auth', 'permission:reports.view'])->prefix('reports')->name(
     // More report routes will be added in Phase 9
 });
 
+// Audit Logs - Admin only (audit-logs.view permission)
+Route::middleware(['auth', 'permission:audit-logs.view'])->prefix('audit-logs')->name('audit-logs.')->group(function () {
+    Route::get('/', [App\Http\Controllers\AuditLogController::class, 'index'])->name('index');
+});
+
 require __DIR__ . '/auth.php';

@@ -79,6 +79,12 @@
                         {{ __('Reports') }}
                     </x-nav-link>
                 @endcan
+
+                @can('audit-logs.view')
+                    <x-nav-link :href="route('audit-logs.index')" :active="request()->routeIs('audit-logs.*')">
+                        {{ __('Audit Logs') }}
+                    </x-nav-link>
+                @endcan
             </div>
 
             <!-- Settings Dropdown -->
@@ -179,6 +185,16 @@
             </div>
         </div>
         @endrole
+
+        @can('audit-logs.view')
+            <div class="pt-4 pb-1 border-t border-gray-200">
+                <div class="mt-1 space-y-1">
+                    <x-responsive-nav-link :href="route('audit-logs.index')" :active="request()->routeIs('audit-logs.*')">
+                        {{ __('Audit Logs') }}
+                    </x-responsive-nav-link>
+                </div>
+            </div>
+        @endcan
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">

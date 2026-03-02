@@ -176,7 +176,7 @@
                                 <span class="text-sm font-medium text-gray-900">Bulk Import CSV</span>
                             </a>
                             @endrole
-                            <br>                  
+                            <br>
                             @role('QC')
                             <a href="{{ route('qc.pending') }}"
                                 class="flex items-center p-3 bg-yellow-50 hover:bg-yellow-100 rounded-lg transition">
@@ -225,7 +225,7 @@
                                         </div>
                                     </div>
                                     <div class="ml-3 flex-1">
-                                        <p class="text-sm text-gray-900">{{ $log->event }}</p>
+                                        <p class="text-sm text-gray-900">{{ $log->action }}</p>
                                         <p class="text-xs text-gray-500">{{ $log->created_at->diffForHumans() }}</p>
                                     </div>
                                 </div>
