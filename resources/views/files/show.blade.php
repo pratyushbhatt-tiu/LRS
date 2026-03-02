@@ -38,7 +38,7 @@
 
                 @foreach($allowedTransitions as $nextStatus)
                     <button type="button" @click="$dispatch('open-modal', 'transition-modal-{{ $nextStatus }}')"
-                        class="px-4 py-2 bg-white border border-gray-300 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition-all shadow-sm">
+                        class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                         Move to {{ config("constants.status_config.{$nextStatus}.label") }}
                     </button>
 

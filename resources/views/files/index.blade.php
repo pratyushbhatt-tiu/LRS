@@ -5,14 +5,13 @@
                 {{ __('Files Management') }}
             </h2>
             @can('files.create')
-                <a href="{{ route('files.create') }}"
-                    class="px-4 py-2 bg-gray-800 text-white 
-               rounded-2xl hover:bg-gray-700 
-               transition duration-200 shadow-md">
-               
+                <a href="{{ route('files.create') }}" class="px-4 py-2 bg-gray-800 text-white 
+                   rounded-2xl hover:bg-gray-700 
+                   transition duration-200 shadow-md">
+
                     <!-- <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg> -->
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg> -->
                     {{ __('Add New File') }}
                 </a>
             @endcan
@@ -22,7 +21,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Glassmorphism Filters Section -->
-            <div class="mb-8 p-6 bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-white/20">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <form action="{{ route('files.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div class="relative">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
@@ -84,20 +83,28 @@
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-gray-50/50">
-                                <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">File
+                                <th
+                                    class="px-6 py-4 text-left !text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    File
                                     No</th>
-                                <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                <th
+                                    class="px-6 py-4 text-left !text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
                                     Client</th>
-                                <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">Doc
+                                <th
+                                    class="px-6 py-4 text-left !text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                    Doc
                                     Type</th>
-                                <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                <th
+                                    class="px-6 py-4 text-left !text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
                                     Location</th>
-                                <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                <th
+                                    class="px-6 py-4 text-left !text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
                                     Received</th>
-                                <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                <th
+                                    class="px-6 py-4 text-left !text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
                                     Status</th>
                                 <th
-                                    class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500 text-right">
+                                    class="px-6 py-4 text-right !text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
                                     Actions</th>
                             </tr>
                         </thead>

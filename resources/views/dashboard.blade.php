@@ -207,32 +207,75 @@
                 <!-- Recent Activity -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
-                        <div class="space-y-3">
-                            @php
-                                try {
-                                    $recentLogs = \App\Models\AuditLog::latest()->limit(5)->get();
-                                } catch (\Exception $e) {
-                                    $recentLogs = collect();
-                                }
-                            @endphp
-                            @forelse($recentLogs as $log)
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0">
-                                        <div class="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
-                                            <span
-                                                class="text-xs font-medium text-gray-600">{{ substr($log->user->name ?? 'System', 0, 2) }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="ml-3 flex-1">
-                                        <p class="text-sm text-gray-900">{{ $log->action }}</p>
-                                        <p class="text-xs text-gray-500">{{ $log->created_at->diffForHumans() }}</p>
-                                    </div>
-                                </div>
-                            @empty
-                                <p class="text-sm text-gray-500">No recent activity</p>
-                            @endforelse
+                        <div class="flex items-center justify-between mb-5">
+                            <h3 class="text-lg font-semibold text-gray-900">Recent Activity</h3>
+                            <!-- <span class="text-xs text-gray-400 font-medium uppercase tracking-wider">   Top 5</span> -->
                         </div>
+                        <br>
+                        @php
+                            try {
+                                $recentLogs = \App\Models\AuditLog::with('user')->latest()->limit(5)->get();
+                            } catch (\Exception $e) {
+                                $recentLogs = collect();
+                            }
+
+                            $actionColours = [
+                                'LOGIN' => ['bg' => 'bg-green-100', 'text' => 'text-green-700', 'dot' => 'bg-green-500'],
+                                'LOGOUT' => ['bg' => 'bg-gray-100', 'text' => 'text-gray-600', 'dot' => 'bg-gray-400'],
+                                'FILE_CREATED' => ['bg' => 'bg-blue-100', 'text' => 'text-blue-700', 'dot' => 'bg-blue-500'],
+                                'FILE_UPDATED' => ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-700', 'dot' => 'bg-yellow-500'],
+                                'FILE_DELETED' => ['bg' => 'bg-red-100', 'text' => 'text-red-700', 'dot' => 'bg-red-500'],
+                                'STATUS_CHANGED' => ['bg' => 'bg-purple-100', 'text' => 'text-purple-700', 'dot' => 'bg-purple-500'],
+                            ];
+                        @endphp
+
+                        @forelse($recentLogs as $log)
+                            @php
+                                $colours = $actionColours[$log->action] ?? ['bg' => 'bg-indigo-100', 'text' => 'text-indigo-700', 'dot' => 'bg-indigo-500'];
+                                $initials = strtoupper(substr($log->user->name ?? 'S', 0, 1) . substr(explode(' ', $log->user->name ?? 'SY')[1] ?? '', 0, 1));
+                            @endphp
+                            <div class="flex items-start gap-3 py-3 {{ !$loop->last ? 'border-b border-gray-50' : '' }}">
+                                {{-- Content --}}
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <span class="text-sm font-semibold text-gray-900 truncate">
+                                            {{ $log->user->name ?? 'System' }}
+                                        </span>
+                                        <span
+                                            class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold {{ $colours['bg'] }} {{ $colours['text'] }}">
+                                            <span class="w-1.5 h-1.5 rounded-full {{ $colours['dot'] }} mr-1"></span>
+                                            {{ $log->action }}
+                                        </span>
+                                    </div>
+                                    @if($log->auditable_type)
+                                        <p class="text-xs text-gray-500 mt-0.5">
+                                            {{ class_basename($log->auditable_type) }} #{{ $log->auditable_id }}
+                                        </p>
+                                    @endif
+                                    <p class="text-xs text-gray-400 mt-0.5">{{ $log->created_at->diffForHumans() }}</p>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="py-8 text-center">
+                                <div class="text-gray-300 text-3xl mb-2">📋</div>
+                                <p class="text-sm text-gray-400 italic">No recent activity yet</p>
+                            </div>
+                        @endforelse
+
+                        @if($recentLogs->isNotEmpty())
+                            @can('audit-logs.view')
+                                <div class="mt-4 pt-4 border-t border-gray-50">
+                                    <a href="{{ route('audit-logs.index') }}"
+                                        class="flex items-center justify-center gap-2 w-full py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all duration-200">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M4 6h16M4 12h16M4 18h16" />
+                                        </svg>
+                                        Show All Activity
+                                    </a>
+                                </div>
+                            @endcan
+                        @endif
                     </div>
                 </div>
             </div>
