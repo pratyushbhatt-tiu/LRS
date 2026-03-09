@@ -26,7 +26,7 @@
                             <select name="county_id" id="county_id"
                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('county_id') border-red-500 @enderror"
                                 required {{ $city->trashed() ? 'disabled' : '' }}>
-                                <option value="">Select County</option>
+                                <option value="" disabled hidden>Select County</option>
                                 @foreach($counties as $county)
                                     <option value="{{ $county->id }}" {{ old('county_id', $city->county_id) == $county->id ? 'selected' : '' }}>
                                         {{ $county->name }} ({{ $county->state->code ?? 'N/A' }})

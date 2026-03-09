@@ -34,18 +34,21 @@
                                         upon creation.</p>
                                 </div>
                                 <div>
-                                    <x-input-label :value="__('Partner Reference No')" class="font-bold text-gray-700" />
-                                    <div class="mt-1 block w-full px-4 py-2 bg-gray-50 border border-gray-200 text-gray-500 rounded-xl shadow-sm italic">
+                                    <x-input-label :value="__('Partner Reference No')"
+                                        class="font-bold text-gray-700" />
+                                    <div
+                                        class="mt-1 block w-full px-4 py-2 bg-gray-50 border border-gray-200 text-gray-500 rounded-xl shadow-sm italic">
                                         {{ __('REF-YYYY-XXXXXX (System Generated)') }}
                                     </div>
-                                    <p class="mt-1 text-xs text-gray-500">The partner reference will be assigned automatically upon creation.</p>
+                                    <p class="mt-1 text-xs text-gray-500">The partner reference will be assigned
+                                        automatically upon creation.</p>
                                 </div>
                                 <div>
                                     <x-input-label for="client_id" :value="__('Client')"
                                         class="font-bold text-gray-700" />
                                     <select id="client_id" name="client_id"
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="">Select Client</option>
+                                        <option value="" disabled hidden>Select Client</option>
                                         @foreach($clients as $client)
                                             <option value="{{ $client->id }}" {{ old('client_id') == $client->id ? 'selected' : '' }}>
                                                 {{ $client->name }}
@@ -85,7 +88,7 @@
                                         class="font-bold text-gray-700" />
                                     <select id="doc_type_id" name="doc_type_id"
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="">Select Document Type</option>
+                                        <option value="" disabled hidden>Select Document Type</option>
                                         @foreach($docTypes as $docType)
                                             <option value="{{ $docType->id }}" {{ old('doc_type_id') == $docType->id ? 'selected' : '' }}>
                                                 {{ $docType->name }} ({{ $docType->code }})
@@ -99,7 +102,7 @@
                                         class="font-bold text-gray-700" />
                                     <select id="recording_purpose_id" name="recording_purpose_id"
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="">Select Purpose</option>
+                                        <option value="" disabled hidden>Select Purpose</option>
                                         @foreach($purposes as $purpose)
                                             <option value="{{ $purpose->id }}" {{ old('recording_purpose_id') == $purpose->id ? 'selected' : '' }}>
                                                 {{ $purpose->name }}
@@ -113,7 +116,7 @@
                                         class="font-bold text-gray-700" />
                                     <select id="state_id" name="state_id"
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="">Select State</option>
+                                        <option value="" disabled hidden>Select State</option>
                                         @foreach($states as $state)
                                             <option value="{{ $state->id }}" {{ old('state_id') == $state->id ? 'selected' : '' }}>
                                                 {{ $state->name }}
@@ -127,7 +130,7 @@
                                         class="font-bold text-gray-700" />
                                     <select id="county_id" name="county_id"
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="">Select County</option>
+                                        <option value="" disabled hidden>Select County</option>
                                         @foreach($counties as $county)
                                             <option value="{{ $county->id }}" {{ old('county_id') == $county->id ? 'selected' : '' }}>
                                                 {{ $county->name }} ({{ $county->state->name }})
@@ -145,8 +148,7 @@
                                 class="px-4 py-2 bg-white border border-gray-300 rounded-xl font-bold text-gray-900 hover:bg-gray-70 transition-all shadow-sm">
                                 Cancel
                             </a>
-                            <button type="submit"
-                                class="w-60 px-4 py-2 bg-gray-800 text-white 
+                            <button type="submit" class="w-60 px-4 py-2 bg-gray-800 text-white 
                rounded-2xl hover:bg-gray-700 
                transition duration-200 shadow-md">
                                 Create File

@@ -75,7 +75,7 @@
                                 <select name="client_id" id="client_id"
                                     class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     {{ $feeRule->trashed() ? 'disabled' : '' }}>
-                                    <option value="">All Clients</option>
+                                    <option value="" disabled hidden>Select Client</option>
                                     @foreach($clients as $client)
                                         <option value="{{ $client->id }}" {{ old('client_id', $feeRule->client_id) == $client->id ? 'selected' : '' }}>{{ $client->name }}
                                         </option>
@@ -88,7 +88,7 @@
                                 <select name="doc_type_id" id="doc_type_id"
                                     class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     {{ $feeRule->trashed() ? 'disabled' : '' }}>
-                                    <option value="">All Types</option>
+                                    <option value="" disabled hidden>Select Document Type</option>
                                     @foreach($docTypes as $type)
                                         <option value="{{ $type->id }}" {{ old('doc_type_id', $feeRule->doc_type_id) == $type->id ? 'selected' : '' }}>{{ $type->name }}
                                         </option>
@@ -100,7 +100,7 @@
                                 <select name="state_id" id="state_id"
                                     class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     {{ $feeRule->trashed() ? 'disabled' : '' }}>
-                                    <option value="">All States</option>
+                                    <option value="" disabled hidden>Select State</option>
                                     @foreach($states as $state)
                                         <option value="{{ $state->id }}" {{ old('state_id', $feeRule->state_id) == $state->id ? 'selected' : '' }}>{{ $state->name }}</option>
                                     @endforeach
@@ -112,7 +112,7 @@
                                 <select name="county_id" id="county_id"
                                     class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     {{ $feeRule->trashed() ? 'disabled' : '' }}>
-                                    <option value="">All Counties</option>
+                                    <option value="" disabled hidden>Select County</option>
                                     @foreach($counties as $county)
                                         <option value="{{ $county->id }}" {{ old('county_id', $feeRule->county_id) == $county->id ? 'selected' : '' }}>
                                             {{ $county->name }} ({{ $county->state->code ?? '?' }})
