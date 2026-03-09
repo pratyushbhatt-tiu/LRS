@@ -23,9 +23,9 @@
 
             <div class="flex items-center gap-3">
                 @can('files.edit', $file)
-                    <a href="{{ route('files.edit', $file) }}" class="w-60 px-4 py-2 bg-gray-800 text-white 
-                           rounded-2xl hover:bg-gray-700 
-                           transition duration-200 shadow-md">
+                    <a href="{{ route('files.edit', $file) }}" class="w-60 p-3 bg-gray-800 text-white 
+                               rounded-xl hover:bg-gray-700 
+                               transition duration-200 shadow-md">
                         Edit Details
                     </a>
                 @endcan
@@ -37,7 +37,7 @@
 
                 @foreach($allowedTransitions as $nextStatus)
                     <button type="button" @click="$dispatch('open-modal', 'transition-modal-{{ $nextStatus }}')"
-                        class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        class="bg-white rounded-2xl shadow-sm border border-gray-800 p-3">
                         Move to {{ config("constants.status_config.{$nextStatus}.label") }}
                     </button>
 
@@ -244,4 +244,3 @@
     </div>
 
 </x-app-layout>
-
