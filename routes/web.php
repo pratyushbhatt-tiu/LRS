@@ -22,9 +22,11 @@ Route::middleware(['auth', 'permission:files.view'])->prefix('files')->name('fil
     Route::get('/', [App\Http\Controllers\FileController::class, 'index'])->name('index');
     Route::get('/create', [App\Http\Controllers\FileController::class, 'create'])->middleware('permission:files.create')->name('create');
     Route::post('/', [App\Http\Controllers\FileController::class, 'store'])->middleware('permission:files.create')->name('store');
-    Route::get('/import', function () {
-        return view('files.import');
-    })->middleware('role:Operations,Admin')->name('import');
+    Route::get('/import', [App\Http\Controllers\ImportController::class, 'index'])->middleware('permission:files.create')->name('import');
+    Route::get('/import/template', [App\Http\Controllers\ImportController::class, 'downloadTemplate'])->middleware('permission:files.create')->name('import.template');
+    Route::post('/import', [App\Http\Controllers\ImportController::class, 'upload'])->middleware('permission:files.create')->name('import.upload');
+    Route::get('/import/{importLog}', [App\Http\Controllers\ImportController::class, 'show'])->name('import.show');
+    Route::get('/import/{importLog}/errors', [App\Http\Controllers\ImportController::class, 'downloadErrors'])->name('import.errors');
     Route::get('/{file}', [App\Http\Controllers\FileController::class, 'show'])->name('show');
     Route::get('/{file}/edit', [App\Http\Controllers\FileController::class, 'edit'])->middleware('permission:files.edit')->name('edit');
     Route::put('/{file}', [App\Http\Controllers\FileController::class, 'update'])->middleware('permission:files.edit')->name('update');

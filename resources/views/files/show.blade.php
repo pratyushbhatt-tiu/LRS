@@ -23,10 +23,9 @@
 
             <div class="flex items-center gap-3">
                 @can('files.edit', $file)
-                    <a href="{{ route('files.edit', $file) }}"
-                        class="w-60 px-4 py-2 bg-gray-800 text-white 
-               rounded-2xl hover:bg-gray-700 
-               transition duration-200 shadow-md">
+                    <a href="{{ route('files.edit', $file) }}" class="w-60 px-4 py-2 bg-gray-800 text-white 
+                           rounded-2xl hover:bg-gray-700 
+                           transition duration-200 shadow-md">
                         Edit Details
                     </a>
                 @endcan
@@ -97,13 +96,13 @@
                         <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
                             <div>
                                 <label
-                                    class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Client</label>
-                                <div class="text-base font-bold text-gray-900">{{ $file->client->name }}</div>
+                                    class="block text-xs font-bold text-gray-900 uppercase tracking-widest mb-1">Client</label>
+                                <div class="text-base font-bold text-gray-700">{{ $file->client->name }}</div>
                             </div>
                             <br>
                             <div>
                                 <label
-                                    class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Received
+                                    class="block text-xs font-bold text-gray-900 uppercase tracking-widest mb-1">Received
                                     Date</label>
                                 <div class="text-base font-bold text-gray-900">
                                     {{ $file->received_date->format('F d, Y') }}
@@ -112,7 +111,7 @@
                             <br>
                             <div>
                                 <label
-                                    class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Document
+                                    class="block text-xs font-bold text-gray-900 uppercase tracking-widest mb-1">Document
                                     Type</label>
                                 <div class="text-base font-medium text-gray-700">{{ $file->docType->name }}
                                     ({{ $file->docType->code }})</div>
@@ -120,7 +119,7 @@
                             <br>
                             <div>
                                 <label
-                                    class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Recording
+                                    class="block text-xs font-bold text-gray-900 uppercase tracking-widest mb-1">Recording
                                     Purpose</label>
                                 <div class="text-base font-medium text-gray-700">{{ $file->recordingPurpose->name }}
                                 </div>
@@ -128,7 +127,7 @@
                             <br>
                             <div>
                                 <label
-                                    class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">County
+                                    class="block text-xs font-bold text-gray-900 uppercase tracking-widest mb-1">County
                                     / State</label>
                                 <div class="text-base font-medium text-gray-700">{{ $file->county->name }},
                                     {{ $file->state->name }}
@@ -137,7 +136,7 @@
                             <br>
                             <div>
                                 <label
-                                    class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Partner
+                                    class="block text-xs font-bold text-gray-900 uppercase tracking-widest mb-1">Partner
                                     Ref No</label>
                                 <div class="text-base font-medium text-gray-700">{{ $file->partner_ref_no ?: 'None' }}
                                 </div>
@@ -239,33 +238,10 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Quick Stats / Meta Info -->
-                    <div class="bg-black-900 rounded-2xl shadow-xl p-6 text-black ">
-                        <div class="relative z-10">
-                            <h4 class="text-black-400 font-bold uppercase  mb-4">Processing
-                                Info
-                            </h4>
-                            <div class="space-y-4">
-                                <div class="flex justify-between items-end border-b border-3px-800 pb-2">
-                                    <span class="text-sm opacity-80">Days Active</span>
-                                    <span
-                                        class="text-2xl font-bold">{{ number_format(max(0, now()->diffInDays($file->created_at))) }}</span>
-                                </div>
-                                <div class="flex justify-between items-end border-b border-slate-800 pb-2">
-                                    <span class="text-sm opacity-80">History Steps</span>
-                                    <span class="text-2xl font-bold">{{ count($file->statusHistory) }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Decorative Abstract Shape -->
-                        <div
-                            class="absolute -right-12 -bottom-12 w-48 h-48 bg-red-600 rounded-full opacity-8 blur-3xl">
-                        </div>
-                    </div>
                 </div>
-
             </div>
         </div>
     </div>
+
 </x-app-layout>
+
