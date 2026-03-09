@@ -112,6 +112,25 @@ class ImportFilesJob implements ShouldQueue
                     continue;
                 }
 
+                // --- Idempotency Check ---
+                // Prevent duplicate files from being imported twice by checking exact match of attributes
+                $isDuplicate = File::where('client_id', $client->id)
+                    ->where('doc_type_id', $docType->id)
+                    ->where('recording_purpose_id', $recordingPurpose->id)
+                    ->where('state_id', $state->id)
+                    ->where('county_id', $county->id)
+                    ->where('received_date', $rawData['received_date'])
+                    ->exists();
+
+                if ($isDuplicate) {
+                    $errors[] = array_merge(
+                        ['row' => $totalRows],
+                        $rawData,
+                        ['error' => 'Idempotency exception: A duplicate file with these exact details already exists']
+                    );
+                    continue;
+                }
+
                 // --- Create the File record inside a transaction ---
                 try {
                     DB::transaction(function () use ($rawData, $client, $docType, $recordingPurpose, $state, $county) {
