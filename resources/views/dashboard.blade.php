@@ -30,7 +30,8 @@
                         </div>
                         <div>
                             <h3 class="text-2xl font-black text-gray-900 tracking-tight">Welcome back,
-                                {{ explode(' ', Auth::user()->name)[0] }}!</h3>
+                                {{ explode(' ', Auth::user()->name)[0] }}!
+                            </h3>
                             <div class="flex items-center gap-2 mt-1">
                                 <span class="text-sm font-medium text-gray-400">Authorized Session:</span>
                                 @foreach(Auth::user()->roles as $role)
@@ -45,10 +46,10 @@
                 </div>
             </div>
 
-            <!-- Quick Stats Cards -->
+            <!-- QUICK STATS CARDS: Aggregated metrics based on file statuses -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                 @can('files.view')
-                    <!-- Total Files -->
+                    <!-- Total recorded files in the system -->
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6">
                             <div class="flex items-center">
@@ -257,7 +258,8 @@
                     </div>
                 </div>
 
-                <!-- Recent Activity -->
+                <!-- Recent Activity (Admins Only) -->
+                @role('Admin')
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <div class="flex items-center justify-between mb-6">
@@ -266,11 +268,13 @@
                         <div class="space-y-4">
                             @php
                                 try {
+                                    // Fetch the latest 5 audit entries for recording the history of actions
                                     $recentLogs = \App\Models\AuditLog::with('user')->latest()->limit(5)->get();
                                 } catch (\Exception $e) {
                                     $recentLogs = collect();
                                 }
 
+                                // Configuration for action badge colors for consistent visual cues
                                 $actionColours = [
                                     'LOGIN' => ['bg' => 'bg-green-100', 'text' => 'text-green-700', 'dot' => 'bg-green-500'],
                                     'LOGOUT' => ['bg' => 'bg-gray-100', 'text' => 'text-gray-600', 'dot' => 'bg-gray-400'],
@@ -332,6 +336,7 @@
                         </div>
                     </div>
                 </div>
+                @endrole
             </div>
         </div>
 </x-app-layout>

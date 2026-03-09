@@ -34,9 +34,5 @@ class AppServiceProvider extends ServiceProvider
         \Illuminate\Support\Facades\Gate::policy(\App\Models\FeeRule::class, \App\Policies\FeeRulePolicy::class);
         \Illuminate\Support\Facades\Gate::policy(\App\Models\File::class, \App\Policies\FilePolicy::class);
         \Illuminate\Support\Facades\Gate::policy(\App\Models\AuditLog::class, \App\Policies\AuditLogPolicy::class);
-
-        // Audit logging listeners
-        Event::listen(Login::class, LogSuccessfulLogin::class);
-        Event::listen(Logout::class, LogSuccessfulLogout::class);
     }
 }
