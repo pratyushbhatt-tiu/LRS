@@ -221,7 +221,7 @@ class ImportFilesJob implements ShouldQueue
      */
     private function validateRow(array $row, int $rowNumber): ?string
     {
-        $required = ['client_code', 'doc_type_code', 'recording_purpose_code', 'state_code', 'county_name', 'received_date'];
+        $required = ['client_code', 'received_date', 'doc_type_code', 'recording_purpose_code', 'state_code', 'county_name'];
         $missing = [];
 
         foreach ($required as $field) {

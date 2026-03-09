@@ -258,8 +258,7 @@
                     </div>
                 </div>
 
-                <!-- Recent Activity (Admins Only) -->
-                @role('Admin')
+                <!-- Recent Activity -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <div class="flex items-center justify-between mb-6">
@@ -269,7 +268,7 @@
                             @php
                                 try {
                                     // Fetch the latest 5 audit entries for recording the history of actions
-                                    $recentLogs = \App\Models\AuditLog::with('user')->latest()->limit(5)->get();
+                                    $recentLogs = \App\Models\AuditLog::with('user')->latest()->limit(2)->get();
                                 } catch (\Exception $e) {
                                     $recentLogs = collect();
                                 }
@@ -336,7 +335,6 @@
                         </div>
                     </div>
                 </div>
-                @endrole
             </div>
         </div>
 </x-app-layout>

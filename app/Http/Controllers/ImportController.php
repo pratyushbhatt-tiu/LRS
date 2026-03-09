@@ -37,16 +37,16 @@ class ImportController extends Controller
     {
         $headers = [
             'client_code',
+            'received_date',   // Format: YYYY-MM-DD
             'doc_type_code',
             'recording_purpose_code',
             'state_code',
             'county_name',
-            'received_date',   // Format: YYYY-MM-DD
         ];
 
         // Build CSV content: header row + one example row
         $csvContent = implode(',', $headers) . "\n";
-        $csvContent .= 'CLIENT001,DEED,STANDARD,CA,Los Angeles,2026-03-09' . "\n";
+        $csvContent .= 'CLIENT001,2026-03-09,DEED,STANDARD,CA,Los Angeles' . "\n";
 
         return response($csvContent, 200, [
             'Content-Type' => 'text/csv',
@@ -112,7 +112,7 @@ class ImportController extends Controller
 
         // Build error CSV from the stored errors JSON
         $errors = json_decode($importLog->errors, true);
-        $csvContent = "row,client_code,doc_type_code,recording_purpose_code,state_code,county_name,received_date,error\n";
+        $csvContent = "row,client_code,received_date,doc_type_code,recording_purpose_code,state_code,county_name,error\n";
 
         foreach ($errors as $error) {
             $row = array_map(fn($v) => '"' . str_replace('"', '""', $v) . '"', $error);

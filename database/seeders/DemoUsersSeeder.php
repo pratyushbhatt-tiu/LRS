@@ -6,10 +6,14 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Seeder class for creating standardized demonstration users.
+ * Automatically assigns specific roles to each user for testing workflows and access control.
+ */
 class DemoUsersSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeds to populate test users.
      */
     public function run(): void
     {

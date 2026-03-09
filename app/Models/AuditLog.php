@@ -5,8 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Eloquent Model for Audit Logs.
+ * Stores immutable records of system events and data changes.
+ */
 class AuditLog extends Model
 {
+    // Audit logs are create-only; update timestamps are disabled.
     const UPDATED_AT = null;
 
     protected $fillable = [
