@@ -17,7 +17,7 @@
                             <select name="state_id" id="state_id"
                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('state_id') border-red-500 @enderror"
                                 required>
-                                <option value="" disabled hidden>Select State</option>
+                                <option value="" disabled selected hidden>Select State</option>
                                 @foreach($states as $state)
                                     <option value="{{ $state->id }}" {{ old('state_id') == $state->id ? 'selected' : '' }}>
                                         {{ $state->name }}

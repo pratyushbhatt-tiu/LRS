@@ -65,7 +65,7 @@
                                     class="block text-sm font-medium text-gray-700 mb-1">Client</label>
                                 <select name="client_id" id="client_id"
                                     class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    <option value="" disabled hidden>Select Client</option>
+                                    <option value="" disabled selected hidden>Select Client</option>
                                     @foreach($clients as $client)
                                         <option value="{{ $client->id }}" {{ old('client_id') == $client->id ? 'selected' : '' }}>{{ $client->name }}</option>
                                     @endforeach
@@ -76,7 +76,7 @@
                                     Type</label>
                                 <select name="doc_type_id" id="doc_type_id"
                                     class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    <option value="" disabled hidden>Select Document Type</option>
+                                    <option value="" disabled selected hidden>Select Document Type</option>
                                     @foreach($docTypes as $type)
                                         <option value="{{ $type->id }}" {{ old('doc_type_id') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
                                     @endforeach
@@ -86,7 +86,7 @@
                                 <label for="state_id" class="block text-sm font-medium text-gray-700 mb-1">State</label>
                                 <select name="state_id" id="state_id"
                                     class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    <option value="" disabled hidden>Select State</option>
+                                    <option value="" disabled selected hidden>Select State</option>
                                     @foreach($states as $state)
                                         <option value="{{ $state->id }}" {{ old('state_id') == $state->id ? 'selected' : '' }}>{{ $state->name }}</option>
                                     @endforeach
@@ -97,7 +97,7 @@
                                     class="block text-sm font-medium text-gray-700 mb-1">County</label>
                                 <select name="county_id" id="county_id"
                                     class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    <option value="" disabled hidden>Select County</option>
+                                    <option value="" disabled selected hidden>Select County</option>
                                     @foreach($counties as $county)
                                         <option value="{{ $county->id }}" {{ old('county_id') == $county->id ? 'selected' : '' }}>
                                             {{ $county->name }} ({{ $county->state->code ?? '?' }})

@@ -47,7 +47,7 @@
                                 class="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Action</label>
                             <select name="action"
                                 class="w-full rounded-2xl border-gray-200 text-sm focus:border-indigo-500 focus:ring-indigo-500 shadow-sm py-3 px-4 bg-gray-50/30 font-medium">
-                                <option value="" disabled hidden>Select Action</option>
+                                <option value="" disabled selected hidden>Select Action</option>
                                 @foreach($actions as $action)
                                     <option value="{{ $action }}" {{ request('action') === $action ? 'selected' : '' }}>
                                         {{ config("constants.audit_events.{$action}", $action) }}
@@ -62,7 +62,7 @@
                                 class="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">User</label>
                             <select name="user_id"
                                 class="w-full rounded-2xl border-gray-200 text-sm focus:border-indigo-500 focus:ring-indigo-500 shadow-sm py-3 px-4 bg-gray-50/30 font-medium">
-                                <option value="" disabled hidden>Select User</option>
+                                <option value="" disabled selected hidden>Select User</option>
                                 @foreach($users as $user)
                                     <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
                                         {{ $user->name }}

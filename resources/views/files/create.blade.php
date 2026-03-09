@@ -48,7 +48,7 @@
                                         class="font-bold text-gray-700" />
                                     <select id="client_id" name="client_id"
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="" disabled hidden>Select Client</option>
+                                        <option value="" disabled selected hidden>Select Client</option>
                                         @foreach($clients as $client)
                                             <option value="{{ $client->id }}" {{ old('client_id') == $client->id ? 'selected' : '' }}>
                                                 {{ $client->name }}
@@ -88,7 +88,7 @@
                                         class="font-bold text-gray-700" />
                                     <select id="doc_type_id" name="doc_type_id"
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="" disabled hidden>Select Document Type</option>
+                                        <option value="" disabled selected hidden>Select Document Type</option>
                                         @foreach($docTypes as $docType)
                                             <option value="{{ $docType->id }}" {{ old('doc_type_id') == $docType->id ? 'selected' : '' }}>
                                                 {{ $docType->name }} ({{ $docType->code }})
@@ -102,7 +102,7 @@
                                         class="font-bold text-gray-700" />
                                     <select id="recording_purpose_id" name="recording_purpose_id"
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="" disabled hidden>Select Purpose</option>
+                                        <option value="" disabled selected hidden>Select Purpose</option>
                                         @foreach($purposes as $purpose)
                                             <option value="{{ $purpose->id }}" {{ old('recording_purpose_id') == $purpose->id ? 'selected' : '' }}>
                                                 {{ $purpose->name }}
@@ -116,7 +116,7 @@
                                         class="font-bold text-gray-700" />
                                     <select id="state_id" name="state_id"
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="" disabled hidden>Select State</option>
+                                        <option value="" disabled selected hidden>Select State</option>
                                         @foreach($states as $state)
                                             <option value="{{ $state->id }}" {{ old('state_id') == $state->id ? 'selected' : '' }}>
                                                 {{ $state->name }}
@@ -130,7 +130,7 @@
                                         class="font-bold text-gray-700" />
                                     <select id="county_id" name="county_id"
                                         class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
-                                        <option value="" disabled hidden>Select County</option>
+                                        <option value="" disabled selected hidden>Select County</option>
                                         @foreach($counties as $county)
                                             <option value="{{ $county->id }}" {{ old('county_id') == $county->id ? 'selected' : '' }}>
                                                 {{ $county->name }} ({{ $county->state->name }})
