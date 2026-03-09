@@ -6,12 +6,12 @@
             </h2>
             @can('files.create')
                 <a href="{{ route('files.create') }}" class="px-4 py-2 bg-gray-800 text-white 
-                   rounded-2xl hover:bg-gray-700 
-                   transition duration-200 shadow-md">
+                       rounded-2xl hover:bg-gray-700 
+                       transition duration-200 shadow-md">
 
                     <!-- <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg> -->
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg> -->
                     {{ __('Add New File') }}
                 </a>
             @endcan
@@ -33,28 +33,28 @@
                         </div>
                     </div>
                     <br>
-                    <div>
+                    <div x-data="{ status: '{{ request('status') }}' }">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                        <select name="status"
+                        <select name="status" x-model="status"
+                            :class="status === '' ? 'text-gray-500' : 'text-gray-900'"
                             class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl transition duration-200">
-                            <option value=""
-                                class="w-full pl-20 pr-4 py-3 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl transition duration-200 shadow-sm">
-                                All Statuses</option>
+                            <option value="">Select Status</option>
                             @foreach(config('constants.file_statuses') as $status)
-                                <option value="{{ $status }}" {{ request('status') == $status ? 'selected' : '' }}>
+                                <option value="{{ $status }}" class="text-gray-900">
                                     {{ config("constants.status_config.{$status}.label") }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
                     <br>
-                    <div>
+                    <div x-data="{ client_id: '{{ request('client_id') }}' }">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Client</label>
-                        <select name="client_id"
+                        <select name="client_id" x-model="client_id"
+                            :class="client_id === '' ? 'text-gray-500' : 'text-gray-900'"
                             class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl transition duration-200">
-                            <option value="">All Clients</option>
+                            <option value="">Select Client</option>
                             @foreach($clients as $client)
-                                <option value="{{ $client->id }}" {{ request('client_id') == $client->id ? 'selected' : '' }}>
+                                <option value="{{ $client->id }}" class="text-gray-900">
                                     {{ $client->name }}
                                 </option>
                             @endforeach
