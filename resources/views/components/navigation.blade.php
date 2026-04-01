@@ -26,13 +26,13 @@
                         </x-nav-link>
                     @endcan
 
-                    @role('QC')
+                    @role('QC|Admin')
                     <x-nav-link :href="route('qc.index')" :active="request()->routeIs('qc.*')">
                         {{ __('QC Module') }}
                     </x-nav-link>
                     @endrole
 
-                    @role('Accounting')
+                    @role('Accounting|Admin')
                     <x-nav-link :href="route('accounting.index')" :active="request()->routeIs('accounting.*')">
                         {{ __('Accounting') }}
                     </x-nav-link>
@@ -126,13 +126,13 @@
                 </x-responsive-nav-link>
             @endcan
 
-            @role('QC')
+            @role('QC|Admin')
             <x-responsive-nav-link :href="route('qc.index')" :active="request()->routeIs('qc.*')">
                 {{ __('QC Module') }}
             </x-responsive-nav-link>
             @endrole
 
-            @role('Accounting')
+            @role('Accounting|Admin')
             <x-responsive-nav-link :href="route('accounting.index')" :active="request()->routeIs('accounting.*')">
                 {{ __('Accounting') }}
             </x-responsive-nav-link>

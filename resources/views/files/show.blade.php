@@ -21,9 +21,9 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3" x-data="{}">
                 @can('files.edit', $file)
-                    <a href="{{ route('files.edit', $file) }}" class="w-60 p-3 bg-gray-800 text-white 
+                    <a href="{{ route('files.edit', $file) }}" class="w-36 p-3 text-center bg-gray-800 text-white 
                                    rounded-xl hover:bg-gray-700 
                                    transition duration-200 shadow-md">
                         Edit Details
@@ -69,7 +69,7 @@
                                     Cancel
                                 </button>
                                 <button type="submit"
-                                    class="px-6 py-2 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg hover:shadow-indigo-500/50">
+                                    class="px-6 py-2 bg-gray-900 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg hover:shadow-indigo-500/50">
                                     Confirm Transition
                                 </button>
                             </div>
