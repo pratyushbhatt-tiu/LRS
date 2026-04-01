@@ -83,6 +83,10 @@ class ImportFilesJob implements ShouldQueue
                     continue;
                 }
 
+                // Convert received_date from DD-MM-YYYY (CSV format) to Y-m-d (DB format)
+                [$day, $month, $year] = explode('-', trim($rawData['received_date']));
+                $parsedDate = "{$year}-{$month}-{$day}";
+
                 // --- Resolve foreign keys from codes/names ---
                 $client = Client::where('code', trim($rawData['client_code']))->where('active', true)->first();
                 $docType = DocType::where('code', trim($rawData['doc_type_code']))->where('active', true)->first();
@@ -119,7 +123,7 @@ class ImportFilesJob implements ShouldQueue
                     ->where('recording_purpose_id', $recordingPurpose->id)
                     ->where('state_id', $state->id)
                     ->where('county_id', $county->id)
-                    ->where('received_date', $rawData['received_date'])
+                    ->where('received_date', $parsedDate)
                     ->exists();
 
                 if ($isDuplicate) {
@@ -133,7 +137,7 @@ class ImportFilesJob implements ShouldQueue
 
                 // --- Create the File record inside a transaction ---
                 try {
-                    DB::transaction(function () use ($rawData, $client, $docType, $recordingPurpose, $state, $county) {
+                    DB::transaction(function () use ($rawData, $parsedDate, $client, $docType, $recordingPurpose, $state, $county) {
                         $year = now()->year;
                         $lrsPrefix = "LRS-{$year}-";
                         $refPrefix = "REF-{$year}-";
@@ -168,7 +172,7 @@ class ImportFilesJob implements ShouldQueue
                             'recording_purpose_id' => $recordingPurpose->id,
                             'state_id' => $state->id,
                             'county_id' => $county->id,
-                            'received_date' => $rawData['received_date'],
+                            'received_date' => $parsedDate,
                             'current_status' => config('constants.file_statuses.CHECK_IN'),
                         ]);
 
@@ -234,9 +238,14 @@ class ImportFilesJob implements ShouldQueue
             return 'Missing required fields: ' . implode(', ', $missing);
         }
 
-        // Validate date format
-        if (!strtotime(trim($row['received_date']))) {
-            return "Invalid received_date format (expected YYYY-MM-DD): '{$row['received_date']}'";
+        // Validate date format: must be DD-MM-YYYY
+        $dateTrimmed = trim($row['received_date']);
+        if (!preg_match('/^\d{2}-\d{2}-\d{4}$/', $dateTrimmed)) {
+            return "Invalid received_date format (expected DD-MM-YYYY): '{$row['received_date']}'";
+        }
+        [$d, $m, $y] = explode('-', $dateTrimmed);
+        if (!checkdate((int) $m, (int) $d, (int) $y)) {
+            return "Invalid received_date value (not a real date): '{$row['received_date']}'";
         }
 
         return null;

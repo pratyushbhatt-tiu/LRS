@@ -130,7 +130,7 @@
 
             {{-- Info Row --}}
             <div class="text-xs text-gray-400 text-center">
-                Uploaded {{ $importLog->created_at->format('F d, Y \a\t H:i') }}
+                Uploaded {{ $importLog->created_at->format('d-m-Y \a\t H:i') }}
                 by {{ $importLog->user->name }}
             </div>
 

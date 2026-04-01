@@ -37,7 +37,7 @@ class ImportController extends Controller
     {
         $headers = [
             'client_code',
-            'received_date',   // Format: YYYY-MM-DD
+            'received_date',   // Format: DD-MM-YYYY
             'doc_type_code',
             'recording_purpose_code',
             'state_code',
@@ -46,7 +46,7 @@ class ImportController extends Controller
 
         // Build CSV content: header row + one example row
         $csvContent = implode(',', $headers) . "\n";
-        $csvContent .= 'CLIENT001,2026-03-09,DEED,STANDARD,CA,Los Angeles' . "\n";
+        $csvContent .= 'CLIENT001,09-03-2026,DEED,STANDARD,CA,Los Angeles' . "\n";
 
         return response($csvContent, 200, [
             'Content-Type' => 'text/csv',

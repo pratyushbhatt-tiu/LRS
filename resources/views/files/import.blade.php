@@ -133,8 +133,8 @@
                                 <tr class="hover:bg-gray-50/50">
                                     <td class="px-4 py-3 font-mono text-indigo-700">received_date</td>
                                     <td class="px-4 py-3"><span class="px-2 py-0.5 bg-red-100 text-red-700 rounded-full text-xs font-bold">Required</span></td>
-                                    <td class="px-4 py-3 text-gray-500">2026-03-09</td>
-                                    <td class="px-4 py-3 text-gray-500">Format: YYYY-MM-DD (e.g., 2026-12-31)</td>
+                                    <td class="px-4 py-3 text-gray-500">09-03-2026</td>
+                                    <td class="px-4 py-3 text-gray-500">Format: DD-MM-YYYY (e.g., 31-12-2026)</td>
                                 </tr>
                                 <tr class="hover:bg-gray-50/50">
                                     <td class="px-4 py-3 font-mono text-indigo-700">doc_type_code</td>
@@ -204,7 +204,7 @@
                                         <td class="px-6 py-3 text-center text-gray-600">{{ $log->total_rows }}</td>
                                         <td class="px-6 py-3 text-center text-green-700 font-bold">{{ $log->success_rows }}</td>
                                         <td class="px-6 py-3 text-center {{ $log->failed_rows > 0 ? 'text-red-700 font-bold' : 'text-gray-400' }}">{{ $log->failed_rows }}</td>
-                                        <td class="px-6 py-3 text-gray-500 text-xs">{{ $log->created_at->format('M d, Y H:i') }}</td>
+                                        <td class="px-6 py-3 text-gray-500 text-xs">{{ $log->created_at->format('d-m-Y H:i') }}</td>
                                         <td class="px-6 py-3 text-right">
                                             <a href="{{ route('files.import.show', $log) }}"
                                                class="text-indigo-600 hover:text-indigo-800 font-medium text-xs">View →</a>

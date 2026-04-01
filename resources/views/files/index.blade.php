@@ -6,12 +6,12 @@
             </h2>
             @can('files.create')
                 <a href="{{ route('files.create') }}" class="px-4 py-2 bg-gray-800 text-white 
-                           rounded-2xl hover:bg-gray-700 
-                           transition duration-200 shadow-md">
+                               rounded-2xl hover:bg-gray-700 
+                               transition duration-200 shadow-md">
 
                     <!-- <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                </svg> -->
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                    </svg> -->
                     {{ __('Add New File') }}
                 </a>
             @endcan
@@ -123,7 +123,7 @@
                                         <div class="text-sm text-gray-900">{{ $file->county->name }}</div>
                                         <div class="text-xs text-gray-500">{{ $file->state->name }}</div>
                                     </td>
-                                    <td class="px-6 py-4 text-sm text-gray-600">{{ $file->received_date->format('M d, Y') }}
+                                    <td class="px-6 py-4 text-sm text-gray-600">{{ $file->received_date->format('d-m-Y') }}
                                     </td>
                                     <td class="px-6 py-4">
                                         <x-status-badge :status="$file->current_status" class="shadow-sm border-2" />

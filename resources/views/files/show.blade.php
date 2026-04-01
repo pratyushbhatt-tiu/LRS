@@ -24,8 +24,8 @@
             <div class="flex items-center gap-3">
                 @can('files.edit', $file)
                     <a href="{{ route('files.edit', $file) }}" class="w-60 p-3 bg-gray-800 text-white 
-                               rounded-xl hover:bg-gray-700 
-                               transition duration-200 shadow-md">
+                                   rounded-xl hover:bg-gray-700 
+                                   transition duration-200 shadow-md">
                         Edit Details
                     </a>
                 @endcan
@@ -91,7 +91,7 @@
                         <div class="px-6 py-4 bg-gray-50/50 border-b border-gray-100 flex justify-between items-center">
                             <h3 class="font-bold text-gray-900">General Information</h3>
                             <span class="text-xs text-gray-400">Created
-                                {{ $file->created_at->format('M d, Y H:i') }}</span>
+                                {{ $file->created_at->format('d-m-Y H:i') }}</span>
                         </div>
                         <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
                             <div>
@@ -105,7 +105,7 @@
                                     class="block text-xs font-bold text-gray-900 uppercase tracking-widest mb-1">Received
                                     Date</label>
                                 <div class="text-base font-bold text-gray-900">
-                                    {{ $file->received_date->format('F d, Y') }}
+                                    {{ $file->received_date->format('d-m-Y') }}
                                 </div>
                             </div>
                             <br>
@@ -224,7 +224,7 @@
                                                         </div>
                                                         <div class="text-right text-xs whitespace-nowrap text-gray-400">
                                                             <time
-                                                                datetime="{{ $history->created_at }}">{{ $history->created_at->format('M d, H:i') }}</time>
+                                                                datetime="{{ $history->created_at }}">{{ $history->created_at->format('d-m-Y H:i') }}</time>
                                                             <div class="font-medium text-gray-500 mt-0.5">by
                                                                 {{ $history->changedBy->name }}
                                                             </div>

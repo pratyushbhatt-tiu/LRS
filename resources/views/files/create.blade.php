@@ -87,7 +87,7 @@
                                     <x-input-label for="doc_type_id" :value="__('Document Type')"
                                         class="font-bold text-gray-700" />
                                     <select id="doc_type_id" name="doc_type_id"
-                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm transition duration-200">
+                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 text focus:ring-indigo-500 shadow-sm transition duration-200">
                                         <option value="" disabled selected hidden>Select Document Type</option>
                                         @foreach($docTypes as $docType)
                                             <option value="{{ $docType->id }}" {{ old('doc_type_id') == $docType->id ? 'selected' : '' }}>

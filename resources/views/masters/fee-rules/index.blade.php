@@ -61,8 +61,8 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                         {{ $rule->rule_name }}
                                         <div class="text-xs text-gray-500">
-                                            {{ $rule->effective_from ? $rule->effective_from->format('Y-m-d') : '—' }} to
-                                            {{ $rule->effective_to ? $rule->effective_to->format('Y-m-d') : 'Indefinite' }}
+                                            {{ $rule->effective_from ? $rule->effective_from->format('d-m-Y') : '—' }} to
+                                            {{ $rule->effective_to ? $rule->effective_to->format('d-m-Y') : 'Indefinite' }}
                                         </div>
                                         @if($rule->trashed())
                                             <span
@@ -101,7 +101,7 @@
                                                                         <button type="submit"
                                                                             title="{{ $rule->active ? 'Click to deactivate' : 'Click to activate' }}"
                                                                             class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full cursor-pointer transition-colors
-                                                                                        {{ $rule->active
+                                                                                                                        {{ $rule->active
                                             ? 'bg-green-100 text-green-800 hover:bg-red-100 hover:text-red-800'
                                             : 'bg-gray-100 text-gray-800 hover:bg-green-100 hover:text-green-800' }}">
                                                                             {{ $rule->active ? 'Active' : 'Inactive' }}
@@ -110,7 +110,7 @@
                                         @else
                                             <span
                                                 class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                                                        {{ $rule->active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                                                                {{ $rule->active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
                                                 {{ $rule->active ? 'Active' : 'Inactive' }}
                                             </span>
                                         @endcan

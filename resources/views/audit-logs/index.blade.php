@@ -133,7 +133,7 @@
                                         {{-- Timestamp --}}
                                         <td class="py-5">
                                             <div class="text-sm font-medium text-gray-700">
-                                                {{ $log->created_at->format('M d, Y') }}
+                                                {{ $log->created_at->format('d-m-Y') }}
                                             </div>
                                             <div class="text-xs text-gray-400 mt-0.5">
                                                 {{ $log->created_at->format('H:i:s') }}
