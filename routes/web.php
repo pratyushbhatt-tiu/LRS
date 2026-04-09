@@ -123,6 +123,7 @@ Route::middleware(['auth', 'role:Admin'])->prefix('masters')->name('masters.')->
 // Reports Module - All authenticated users with reports.view permission
 Route::middleware(['auth', 'permission:reports.view'])->prefix('reports')->name('reports.')->group(function () {
     Route::get('/', [App\Http\Controllers\ReportsController::class, 'index'])->name('index');
+    Route::get('/export', [App\Http\Controllers\ReportsController::class, 'export'])->name('export');
 });
 
 // Audit Logs - Admin only (audit-logs.view permission)
