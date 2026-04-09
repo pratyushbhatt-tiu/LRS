@@ -25,6 +25,15 @@ class File extends Model
         'tracking_number',
         'shipped_at',
         'shipping_notes',
+        'instrument_no',
+        'book',
+        'page',
+        'recorded_at',
+        'recording_fee',
+        'return_courier',
+        'return_tracking_no',
+        'returned_at',
+        'return_notes',
     ];
 
     protected function casts(): array
@@ -32,6 +41,8 @@ class File extends Model
         return [
             'received_date' => 'date',
             'shipped_at' => 'date',
+            'recorded_at' => 'date',
+            'returned_at' => 'date',
         ];
     }
 
