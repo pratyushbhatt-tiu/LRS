@@ -26,7 +26,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'states.view', 'states.create', 'states.edit', 'states.delete',
             'counties.view', 'counties.create', 'counties.edit', 'counties.delete',
             'cities.view', 'cities.create', 'cities.edit', 'cities.delete',
-            'files.view', 'files.create', 'files.edit', 'files.delete', 'files.process', 'files.approve', 'files.ship',
+            'files.view', 'files.create', 'files.edit', 'files.delete', 'files.process', 'files.approve', 'files.ship', 'files.record', 'files.return',
             'audit-logs.view',
             'reports.view', 'reports.export',
         ];
@@ -64,6 +64,8 @@ class RolesAndPermissionsSeeder extends Seeder
             'files.edit',
             'files.process',
             'files.ship',
+            'files.record',
+            'files.return',
             'clients.view',
             'doc-types.view',
             'recording-purposes.view',
