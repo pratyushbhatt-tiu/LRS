@@ -49,6 +49,9 @@ Route::middleware(['auth', 'role:Accounting,Admin'])->prefix('accounting')->name
     Route::get('/pending', [App\Http\Controllers\AccountingController::class, 'index'])->name('pending');
     Route::get('/{file}', [App\Http\Controllers\AccountingController::class, 'show'])->name('show');
     Route::post('/{file}/approve', [App\Http\Controllers\AccountingController::class, 'approve'])->name('approve');
+    Route::post('/{file}/recalculate', [App\Http\Controllers\AccountingController::class, 'recalculateFees'])->name('recalculate-fees');
+    Route::post('/{file}/update-page-count', [App\Http\Controllers\AccountingController::class, 'updatePageCount'])->name('update-page-count');
+    Route::post('/{file}/return', [App\Http\Controllers\AccountingController::class, 'returnToQC'])->name('return');
     Route::post('/fee-override', [App\Http\Controllers\AccountingController::class, 'overrideFee'])->name('fee-lines.override-static');
     Route::post('/fee-lines/{feeLine}/override', [App\Http\Controllers\AccountingController::class, 'overrideFee'])->name('fee-lines.override');
 });

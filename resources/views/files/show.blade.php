@@ -34,7 +34,7 @@
                 @can('files.ship')
                     @if(in_array($file->current_status, [config('constants.file_statuses.ACCOUNTING_APPROVED'), config('constants.file_statuses.SHIPPING')]))
                         <a href="{{ route('shipping.show', $file) }}" 
-                           class="w-48 p-3 text-center bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-100 font-bold">
+                           class="w-48 p-3 text-center bg-gray-900 text-white rounded-xl hover:bg-gray-700 transition duration-200 shadow-lg shadow-gray-100 font-bold">
                             Process Shipment
                         </a>
                     @endif
