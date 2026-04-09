@@ -248,6 +248,48 @@
                         </div>
                     </div>
 
+                    <!-- Recording Information Card (if applicable) -->
+                    @if($file->instrument_no || $file->book || $file->recorded_at)
+                        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden mt-8">
+                            <div class="px-6 py-4 bg-pink-50/50 border-b border-pink-100 flex items-center gap-3">
+                                <span class="p-2 rounded-lg bg-pink-600 text-white shadow-md shadow-pink-100">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                </span>
+                                <h3 class="font-black text-pink-900 uppercase tracking-tight text-sm">Legal Recording Data</h3>
+                            </div>
+                            <div class="p-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+                                <div>
+                                    <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Instrument Number</label>
+                                    <div class="text-sm font-black text-gray-900">{{ $file->instrument_no ?: __('N/A') }}</div>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Book / Page</label>
+                                    <div class="text-sm font-black text-gray-900">
+                                        @if($file->book)
+                                            {{ $file->book }} / {{ $file->page }}
+                                        @else
+                                            {{ __('N/A') }}
+                                        @endif
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Recording Date</label>
+                                    <div class="text-sm font-black text-gray-900">
+                                        {{ $file->recorded_at ? $file->recorded_at->format('d-M-Y') : __('N/A') }}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Recording Fee</label>
+                                    <div class="text-sm font-black text-pink-600">
+                                        ${{ number_format($file->recording_fee, 2) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     <!-- Shipping Information Card (if applicable) -->
                     @if($file->courier)
                         <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden mt-8">
@@ -281,6 +323,46 @@
                                         <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Dispatch Notes</label>
                                         <div class="p-4 bg-gray-50/50 rounded-xl border border-gray-100 italic text-xs text-gray-600 font-medium leading-relaxed">
                                             "{{ $file->shipping_notes }}"
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Return Information Card (if applicable) -->
+                    @if($file->return_courier)
+                        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden mt-8">
+                            <div class="px-6 py-4 bg-emerald-50/50 border-b border-emerald-100 flex items-center gap-3">
+                                <span class="p-2 rounded-lg bg-emerald-600 text-white shadow-md shadow-emerald-100">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 15v-1a4 4 0 00-4-4H8m0 0l3 3m-3-3l3-3m9 14V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z"></path>
+                                    </svg>
+                                </span>
+                                <h3 class="font-black text-emerald-900 uppercase tracking-tight text-sm">{{ __('Return to Partner') }}</h3>
+                            </div>
+                            <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <div>
+                                    <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">{{ __('Courier') }}</label>
+                                    <div class="text-sm font-black text-gray-900">{{ $file->return_courier }}</div>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">{{ __('Tracking Number') }}</label>
+                                    <div class="text-sm font-black text-gray-900 font-mono">
+                                        {{ $file->return_tracking_no ?: __('N/A (Hand Delivered)') }}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">{{ __('Return Date') }}</label>
+                                    <div class="text-sm font-black text-gray-900">
+                                        {{ $file->returned_at ? $file->returned_at->format('d-M-Y') : __('N/A') }}
+                                    </div>
+                                </div>
+                                @if($file->return_notes)
+                                    <div class="md:col-span-3 pt-6 border-t border-gray-50 mt-2">
+                                        <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">{{ __('Closing Notes') }}</label>
+                                        <div class="p-4 bg-gray-50/50 rounded-xl border border-gray-100 italic text-xs text-gray-600 font-medium leading-relaxed">
+                                            "{{ $file->return_notes }}"
                                         </div>
                                     </div>
                                 @endif

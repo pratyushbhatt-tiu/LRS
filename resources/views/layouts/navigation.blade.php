@@ -12,8 +12,7 @@
             </div>
 
             <!-- Centered Navigation Links -->
-            <div
-                class="hidden sm:flex sm:items-center absolute left-1/2 top-0 bottom-0 transform -translate-x-1/2 space-x-8">
+            <div class="hidden sm:flex sm:items-center absolute left-1/2 top-0 bottom-0 transform -translate-x-1/2 space-x-8">
                 <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                 </x-nav-link>
@@ -24,57 +23,76 @@
                     </x-nav-link>
                 @endcan
 
-                @can('files.ship')
-                    <x-nav-link :href="route('shipping.index')" :active="request()->routeIs('shipping.*')">
-                        {{ __('Shipping') }}
+                @can('files.process')
+                    <x-nav-link :href="route('qc.index')" :active="request()->routeIs('qc.*')">
+                        {{ __('QC Module') }}
                     </x-nav-link>
                 @endcan
+
+                @can('files.approve')
+                    <x-nav-link :href="route('accounting.index')" :active="request()->routeIs('accounting.*')">
+                        {{ __('Accounting') }}
+                    </x-nav-link>
+                @endcan
+
+                {{-- Post-Closing Dropdown --}}
+                @if(auth()->user()->can('files.ship') || auth()->user()->can('files.record') || auth()->user()->can('files.return'))
+                <div class="hidden sm:flex sm:items-center">
+                    <x-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out {{ request()->routeIs('shipping.*') || request()->routeIs('recording.*') || request()->routeIs('returns.*') ? 'border-indigo-400 text-gray-900 focus:border-indigo-700' : '' }}">
+                                <div>{{ __('Post-Closing') }}</div>
+                                <div class="ml-1">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </x-slot>
+                        <x-slot name="content">
+                            @can('files.ship')
+                                <x-dropdown-link :href="route('shipping.index')" :active="request()->routeIs('shipping.index')">
+                                    {{ __('Shipping') }}
+                                </x-dropdown-link>
+                            @endcan
+                            @can('files.record')
+                                <x-dropdown-link :href="route('recording.index')" :active="request()->routeIs('recording.index')">
+                                    {{ __('Recording') }}
+                                </x-dropdown-link>
+                            @endcan
+                            @can('files.return')
+                                <x-dropdown-link :href="route('returns.index')" :active="request()->routeIs('returns.index')">
+                                    {{ __('Returns') }}
+                                </x-dropdown-link>
+                            @endcan
+                        </x-slot>
+                    </x-dropdown>
+                </div>
+                @endif
 
                 @role('Admin')
                 <div class="hidden sm:flex sm:items-center">
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button
-                                class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out {{ request()->routeIs('masters.*') ? 'border-indigo-400 text-gray-900 focus:border-indigo-700' : '' }}">
+                            <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out {{ request()->routeIs('masters.*') ? 'border-indigo-400 text-gray-900 focus:border-indigo-700' : '' }}">
                                 <div>{{ __('Masters') }}</div>
-
                                 <div class="ml-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                            clip-rule="evenodd" />
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                     </svg>
                                 </div>
                             </button>
                         </x-slot>
-
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('masters.index')">
-                                {{ __('All Masters') }}
-                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('masters.index')">{{ __('All Masters') }}</x-dropdown-link>
                             <div class="border-t border-gray-100"></div>
-                            <x-dropdown-link :href="route('masters.clients.index')">
-                                {{ __('Clients') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('masters.doc-types.index')">
-                                {{ __('Doc Types') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('masters.recording-purposes.index')">
-                                {{ __('Recording Purposes') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('masters.states.index')">
-                                {{ __('States') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('masters.counties.index')">
-                                {{ __('Counties') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('masters.cities.index')">
-                                {{ __('Cities') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('masters.fee-rules.index')">
-                                {{ __('Fee Rules') }}
-                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('masters.clients.index')">{{ __('Clients') }}</x-dropdown-link>
+                            <x-dropdown-link :href="route('masters.doc-types.index')">{{ __('Doc Types') }}</x-dropdown-link>
+                            <x-dropdown-link :href="route('masters.recording-purposes.index')">{{ __('Recording Purposes') }}</x-dropdown-link>
+                            <x-dropdown-link :href="route('masters.states.index')">{{ __('States') }}</x-dropdown-link>
+                            <x-dropdown-link :href="route('masters.counties.index')">{{ __('Counties') }}</x-dropdown-link>
+                            <x-dropdown-link :href="route('masters.cities.index')">{{ __('Cities') }}</x-dropdown-link>
+                            <x-dropdown-link :href="route('masters.fee-rules.index')">{{ __('Fee Rules') }}</x-dropdown-link>
                         </x-slot>
                     </x-dropdown>
                 </div>
@@ -153,9 +171,27 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
+            @can('files.view')
+                <x-responsive-nav-link :href="route('files.index')" :active="request()->routeIs('files.*')">
+                    {{ __('Files') }}
+                </x-responsive-nav-link>
+            @endcan
+
             @can('files.ship')
-                <x-responsive-nav-link :href="route('shipping.index')" :active="request()->routeIs('shipping.*')">
+                <x-responsive-nav-link :href="route('shipping.index')" :active="request()->routeIs('shipping.index')">
                     {{ __('Shipping') }}
+                </x-responsive-nav-link>
+            @endcan
+
+            @can('files.record')
+                <x-responsive-nav-link :href="route('recording.index')" :active="request()->routeIs('recording.index')">
+                    {{ __('Recording') }}
+                </x-responsive-nav-link>
+            @endcan
+
+            @can('files.return')
+                <x-responsive-nav-link :href="route('returns.index')" :active="request()->routeIs('returns.index')">
+                    {{ __('Returns') }}
                 </x-responsive-nav-link>
             @endcan
         </div>
