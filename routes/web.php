@@ -43,17 +43,21 @@ Route::middleware(['auth', 'role:QC,Admin'])->prefix('qc')->name('qc.')->group(f
     Route::post('/{file}/fail', [App\Http\Controllers\QCController::class, 'fail'])->name('fail');
 });
 
-// Accounting Module - Accounting role
+// Accounting Module - Accounting/Admin roles
 Route::middleware(['auth', 'role:Accounting,Admin'])->prefix('accounting')->name('accounting.')->group(function () {
     Route::get('/', [App\Http\Controllers\AccountingController::class, 'index'])->name('index');
-    Route::get('/pending', [App\Http\Controllers\AccountingController::class, 'pending'])->name('pending');
-    Route::get('/{file}/show', [App\Http\Controllers\AccountingController::class, 'show'])->name('show');
+    Route::get('/pending', [App\Http\Controllers\AccountingController::class, 'index'])->name('pending');
+    Route::get('/{file}', [App\Http\Controllers\AccountingController::class, 'show'])->name('show');
     Route::post('/{file}/approve', [App\Http\Controllers\AccountingController::class, 'approve'])->name('approve');
-    Route::post('/{file}/return', [App\Http\Controllers\AccountingController::class, 'returnToQC'])->name('return');
-    Route::post('/{file}/page-count', [App\Http\Controllers\AccountingController::class, 'updatePageCount'])->name('update-page-count');
-    Route::post('/{file}/recalculate-fees', [App\Http\Controllers\AccountingController::class, 'recalculateFees'])->name('recalculate-fees');
     Route::post('/fee-override', [App\Http\Controllers\AccountingController::class, 'overrideFee'])->name('fee-lines.override-static');
     Route::post('/fee-lines/{feeLine}/override', [App\Http\Controllers\AccountingController::class, 'overrideFee'])->name('fee-lines.override');
+});
+
+// Shipping Module - Admin/Operations (files.ship permission)
+Route::middleware(['auth', 'can:files.ship'])->prefix('shipping')->name('shipping.')->group(function () {
+    Route::get('/', [App\Http\Controllers\ShippingController::class, 'index'])->name('index');
+    Route::get('/{file}', [App\Http\Controllers\ShippingController::class, 'show'])->name('show');
+    Route::post('/{file}/ship', [App\Http\Controllers\ShippingController::class, 'ship'])->name('ship');
 });
 
 // Masters Module - Admin only

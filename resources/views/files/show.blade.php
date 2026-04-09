@@ -30,24 +30,38 @@
                     </a>
                 @endcan
 
+                <!-- Specialized Shipping Button -->
+                @can('files.ship')
+                    @if(in_array($file->current_status, [config('constants.file_statuses.ACCOUNTING_APPROVED'), config('constants.file_statuses.SHIPPING')]))
+                        <a href="{{ route('shipping.show', $file) }}" 
+                           class="w-48 p-3 text-center bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-100 font-bold">
+                            Process Shipment
+                        </a>
+                    @endif
+                @endcan
+
                 <!-- Transition Actions -->
                 @php
                     $allowedTransitions = config('constants.status_transitions')[$file->current_status] ?? [];
+                    // Exclude RECORDING from generic transition if coming from SHIPPING/ACCOUNTING_APPROVED 
+                    // to force use of Shipping Module
+                    $excludedTransitions = [config('constants.file_statuses.RECORDING')];
+                    $filteredTransitions = array_diff($allowedTransitions, $excludedTransitions);
                 @endphp
 
-                @foreach($allowedTransitions as $nextStatus)
+                @foreach($filteredTransitions as $nextStatus)
                     <button type="button" @click="$dispatch('open-modal', 'transition-modal-{{ $nextStatus }}')"
-                        class="bg-white rounded-2xl shadow-sm border border-gray-800 p-3">
+                        class="bg-white rounded-2xl shadow-sm border border-gray-800 p-3 font-bold hover:bg-gray-50 transition-colors">
                         Move to {{ config("constants.status_config.{$nextStatus}.label") }}
                     </button>
 
-                    <!-- Transition Modal (Alpine.js based via x-modal component) -->
+                    <!-- Transition Modal -->
                     <x-modal name="transition-modal-{{ $nextStatus }}" focusable>
                         <form method="POST" action="{{ route('files.transition', $file) }}" class="p-6 text-sm">
                             @csrf
                             <input type="hidden" name="status" value="{{ $nextStatus }}">
 
-                            <h2 class="text-lg font-bold text-gray-900 mb-4">
+                            <h2 class="text-lg font-bold text-gray-900 mb-4 uppercase tracking-tight">
                                 Transition to {{ config("constants.status_config.{$nextStatus}.label") }}
                             </h2>
 
@@ -57,19 +71,19 @@
                             </p>
 
                             <div class="mb-6">
-                                <x-input-label for="notes" value="Notes (Optional)" class="font-bold" />
+                                <x-input-label for="notes" value="Notes (Optional)" class="font-bold uppercase text-[10px] text-gray-400 tracking-widest" />
                                 <textarea name="notes" id="notes" rows="3"
-                                    class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm"
+                                    class="mt-1 block w-full rounded-xl border-gray-100 bg-gray-50/50 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm text-sm"
                                     placeholder="Add any relevant notes for this transition..."></textarea>
                             </div>
 
                             <div class="flex justify-end gap-3">
                                 <button type="button" x-on:click="$dispatch('close')"
-                                    class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition-colors">
+                                    class="px-5 py-2.5 bg-gray-100 text-gray-500 rounded-xl font-bold hover:bg-gray-200 transition-colors uppercase text-[10px] tracking-widest">
                                     Cancel
                                 </button>
                                 <button type="submit"
-                                    class="px-6 py-2 bg-gray-900 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg hover:shadow-indigo-500/50">
+                                    class="px-8 py-2.5 bg-gray-900 text-white rounded-xl font-bold hover:bg-black transition-all shadow-lg uppercase text-[10px] tracking-widest">
                                     Confirm Transition
                                 </button>
                             </div>
@@ -233,6 +247,46 @@
                             @endif
                         </div>
                     </div>
+
+                    <!-- Shipping Information Card (if applicable) -->
+                    @if($file->courier)
+                        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden mt-8">
+                            <div class="px-6 py-4 bg-indigo-50/50 border-b border-indigo-100 flex items-center gap-3">
+                                <span class="p-2 rounded-lg bg-indigo-600 text-white shadow-md shadow-indigo-100">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                    </svg>
+                                </span>
+                                <h3 class="font-black text-indigo-900 uppercase tracking-tight text-sm">Shipping Information</h3>
+                            </div>
+                            <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <div>
+                                    <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Courier / Method</label>
+                                    <div class="text-sm font-black text-gray-900">{{ $file->courier }}</div>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Tracking Number</label>
+                                    <div class="text-sm font-black text-gray-900 font-mono">
+                                        {{ $file->tracking_number ?: __('N/A (Hand Delivered)') }}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Ship Date</label>
+                                    <div class="text-sm font-black text-gray-900">
+                                        {{ $file->shipped_at ? $file->shipped_at->format('d-M-Y') : __('N/A') }}
+                                    </div>
+                                </div>
+                                @if($file->shipping_notes)
+                                    <div class="md:col-span-3 pt-6 border-t border-gray-50 mt-2">
+                                        <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Dispatch Notes</label>
+                                        <div class="p-4 bg-gray-50/50 rounded-xl border border-gray-100 italic text-xs text-gray-600 font-medium leading-relaxed">
+                                            "{{ $file->shipping_notes }}"
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Right Column: Status Timeline -->

@@ -37,6 +37,17 @@ class FilePolicy
      */
     public function update(User $user, File $file): bool
     {
+        // Once a file is in Recording or beyond, only Admins can edit
+        $restrictedStatuses = [
+            config('constants.file_statuses.RECORDING'),
+            config('constants.file_statuses.RETURN'),
+            config('constants.file_statuses.CLOSED'),
+        ];
+
+        if (in_array($file->current_status, $restrictedStatuses)) {
+            return $user->hasRole('Admin');
+        }
+
         return $user->can('files.edit');
     }
 

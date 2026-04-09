@@ -16,111 +16,36 @@ class RolesAndPermissionsSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Define explicit permissions (no wildcards)
+        // Define and create permissions
         $permissions = [
-            // User management
-            'users.view',
-            'users.create',
-            'users.edit',
-            'users.delete',
-
-            // Role management
-            'roles.view',
-            'roles.assign',
-
-            // Master data management
-            'clients.view',
-            'clients.create',
-            'clients.edit',
-            'clients.delete',
-
-            'doc-types.view',
-            'doc-types.create',
-            'doc-types.edit',
-            'doc-types.delete',
-
-            'recording-purposes.view',
-            'recording-purposes.create',
-            'recording-purposes.edit',
-            'recording-purposes.delete',
-
-            'states.view',
-            'states.create',
-            'states.edit',
-            'states.delete',
-
-            'counties.view',
-            'counties.create',
-            'counties.edit',
-            'counties.delete',
-
-            'cities.view',
-            'cities.create',
-            'cities.edit',
-            'cities.delete',
-
-            // File management
-            'files.view',
-            'files.create',
-            'files.edit',
-            'files.delete',
-            'files.process',
-            'files.approve',
-
-            // Audit logs
+            'users.view', 'users.create', 'users.edit', 'users.delete',
+            'roles.view', 'roles.assign',
+            'clients.view', 'clients.create', 'clients.edit', 'clients.delete',
+            'doc-types.view', 'doc-types.create', 'doc-types.edit', 'doc-types.delete',
+            'recording-purposes.view', 'recording-purposes.create', 'recording-purposes.edit', 'recording-purposes.delete',
+            'states.view', 'states.create', 'states.edit', 'states.delete',
+            'counties.view', 'counties.create', 'counties.edit', 'counties.delete',
+            'cities.view', 'cities.create', 'cities.edit', 'cities.delete',
+            'files.view', 'files.create', 'files.edit', 'files.delete', 'files.process', 'files.approve', 'files.ship',
             'audit-logs.view',
-
-            // Reports
-            'reports.view',
-            'reports.export',
+            'reports.view', 'reports.export',
         ];
 
-        // Create permissions
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::findOrCreate($permission, 'web');
         }
 
-        // Create roles and assign permissions
+        // --- Role Assignments ---
 
-        // Admin - Full access
-        $admin = Role::create(['name' => 'Admin']);
-        $admin->givePermissionTo(Permission::all());
+        // 1. Admin - Full Spectrum Access
+        $admin = Role::updateOrCreate(['name' => 'Admin', 'guard_name' => 'web']);
+        $admin->syncPermissions(Permission::all());
 
-        // Operations - File processing and master data management
-        $operations = Role::create(['name' => 'Operations']);
-        $operations->givePermissionTo([
+        // 2. Accounting - Financial Control
+        $accounting = Role::updateOrCreate(['name' => 'Accounting', 'guard_name' => 'web']);
+        $accounting->syncPermissions([
             'files.view',
-            'files.create',
-            'files.edit',
-            'files.process',
-            'clients.view',
-            'doc-types.view',
-            'recording-purposes.view',
-            'states.view',
-            'counties.view',
-            'cities.view',
-            'reports.view',
-        ]);
-
-        // QC - Quality control and approval
-        $qc = Role::create(['name' => 'QC']);
-        $qc->givePermissionTo([
-            'files.view',
-            'files.edit',
             'files.approve',
-            'clients.view',
-            'doc-types.view',
-            'recording-purposes.view',
-            'states.view',
-            'counties.view',
-            'cities.view',
-            'reports.view',
-        ]);
-
-        // Accounting - View and reporting
-        $accounting = Role::create(['name' => 'Accounting']);
-        $accounting->givePermissionTo([
-            'files.view',
             'clients.view',
             'doc-types.view',
             'recording-purposes.view',
@@ -131,9 +56,34 @@ class RolesAndPermissionsSeeder extends Seeder
             'reports.export',
         ]);
 
-        // Read-Only - View only access
-        $readOnly = Role::create(['name' => 'Read-Only']);
-        $readOnly->givePermissionTo([
+        // 3. Operations - Lifecycle Management
+        $operations = Role::updateOrCreate(['name' => 'Operations', 'guard_name' => 'web']);
+        $operations->syncPermissions([
+            'files.view',
+            'files.create',
+            'files.edit',
+            'files.process',
+            'files.ship',
+            'clients.view',
+            'doc-types.view',
+            'recording-purposes.view',
+            'states.view',
+            'counties.view',
+            'cities.view',
+            'reports.view',
+        ]);
+
+        // 4. QC - Quality Assurance
+        $qc = Role::updateOrCreate(['name' => 'QC', 'guard_name' => 'web']);
+        $qc->syncPermissions([
+            'files.view',
+            'files.process',
+            'reports.view',
+        ]);
+
+        // 5. Read-Only - Audit/View only
+        $readOnly = Role::updateOrCreate(['name' => 'Read-Only', 'guard_name' => 'web']);
+        $readOnly->syncPermissions([
             'files.view',
             'clients.view',
             'doc-types.view',

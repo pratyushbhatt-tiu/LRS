@@ -21,12 +21,17 @@ class File extends Model
         'received_date',
         'page_count',
         'current_status',
+        'courier',
+        'tracking_number',
+        'shipped_at',
+        'shipping_notes',
     ];
 
     protected function casts(): array
     {
         return [
             'received_date' => 'date',
+            'shipped_at' => 'date',
         ];
     }
 

@@ -24,6 +24,12 @@
                     </x-nav-link>
                 @endcan
 
+                @can('files.ship')
+                    <x-nav-link :href="route('shipping.index')" :active="request()->routeIs('shipping.*')">
+                        {{ __('Shipping') }}
+                    </x-nav-link>
+                @endcan
+
                 @role('Admin')
                 <div class="hidden sm:flex sm:items-center">
                     <x-dropdown align="right" width="48">
@@ -146,6 +152,12 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @can('files.ship')
+                <x-responsive-nav-link :href="route('shipping.index')" :active="request()->routeIs('shipping.*')">
+                    {{ __('Shipping') }}
+                </x-responsive-nav-link>
+            @endcan
         </div>
 
         @role('Admin')
