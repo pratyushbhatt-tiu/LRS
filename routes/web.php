@@ -53,11 +53,28 @@ Route::middleware(['auth', 'role:Accounting,Admin'])->prefix('accounting')->name
     Route::post('/fee-lines/{feeLine}/override', [App\Http\Controllers\AccountingController::class, 'overrideFee'])->name('fee-lines.override');
 });
 
-// Shipping Module - Admin/Operations (files.ship permission)
-Route::middleware(['auth', 'can:files.ship'])->prefix('shipping')->name('shipping.')->group(function () {
-    Route::get('/', [App\Http\Controllers\ShippingController::class, 'index'])->name('index');
-    Route::get('/{file}', [App\Http\Controllers\ShippingController::class, 'show'])->name('show');
-    Route::post('/{file}/ship', [App\Http\Controllers\ShippingController::class, 'ship'])->name('ship');
+// Phase 9 Modules
+Route::middleware(['auth'])->group(function () {
+    // Shipping Module
+    Route::middleware(['can:files.ship'])->group(function () {
+        Route::get('/shipping', [App\Http\Controllers\ShippingController::class, 'index'])->name('shipping.index');
+        Route::get('/shipping/{file}', [App\Http\Controllers\ShippingController::class, 'show'])->name('shipping.show');
+        Route::post('/shipping/{file}/ship', [App\Http\Controllers\ShippingController::class, 'ship'])->name('shipping.ship');
+    });
+
+    // Recording Module
+    Route::middleware(['can:files.record'])->group(function () {
+        Route::get('/recording', [App\Http\Controllers\RecordingController::class, 'index'])->name('recording.index');
+        Route::get('/recording/{file}', [App\Http\Controllers\RecordingController::class, 'show'])->name('recording.show');
+        Route::post('/recording/{file}/record', [App\Http\Controllers\RecordingController::class, 'record'])->name('recording.record');
+    });
+
+    // Returns Module
+    Route::middleware(['can:files.return'])->group(function () {
+        Route::get('/returns', [App\Http\Controllers\ReturnController::class, 'index'])->name('returns.index');
+        Route::get('/returns/{file}', [App\Http\Controllers\ReturnController::class, 'show'])->name('returns.show');
+        Route::post('/returns/{file}/return', [App\Http\Controllers\ReturnController::class, 'return'])->name('returns.return');
+    });
 });
 
 // Masters Module - Admin only
@@ -105,10 +122,7 @@ Route::middleware(['auth', 'role:Admin'])->prefix('masters')->name('masters.')->
 
 // Reports Module - All authenticated users with reports.view permission
 Route::middleware(['auth', 'permission:reports.view'])->prefix('reports')->name('reports.')->group(function () {
-    Route::get('/', function () {
-        return view('reports.index');
-    })->name('index');
-    // More report routes will be added in Phase 9
+    Route::get('/', [App\Http\Controllers\ReportsController::class, 'index'])->name('index');
 });
 
 // Audit Logs - Admin only (audit-logs.view permission)
