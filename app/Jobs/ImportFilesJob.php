@@ -11,6 +11,7 @@ use App\Models\ImportLog;
 use App\Models\RecordingPurpose;
 use App\Models\State;
 use App\Services\AuditService;
+use App\Services\FeeCalculationService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -173,6 +174,7 @@ class ImportFilesJob implements ShouldQueue
                             'state_id' => $state->id,
                             'county_id' => $county->id,
                             'received_date' => $parsedDate,
+                            'page_count' => (int) ($rawData['page_count'] ?? 1),
                             'current_status' => config('constants.file_statuses.CHECK_IN'),
                         ]);
 
@@ -183,6 +185,9 @@ class ImportFilesJob implements ShouldQueue
                             'changed_by' => $this->userId,
                             'notes' => 'Imported via CSV bulk import',
                         ]);
+
+                        // Automated Fee Calculation (Phase 7 Engine)
+                        FeeCalculationService::calculate($file);
                     });
 
                     $successRows++;
@@ -225,7 +230,7 @@ class ImportFilesJob implements ShouldQueue
      */
     private function validateRow(array $row, int $rowNumber): ?string
     {
-        $required = ['client_code', 'received_date', 'doc_type_code', 'recording_purpose_code', 'state_code', 'county_name'];
+        $required = ['client_code', 'received_date', 'doc_type_code', 'recording_purpose_code', 'state_code', 'county_name', 'page_count'];
         $missing = [];
 
         foreach ($required as $field) {
@@ -246,6 +251,10 @@ class ImportFilesJob implements ShouldQueue
         [$d, $m, $y] = explode('-', $dateTrimmed);
         if (!checkdate((int) $m, (int) $d, (int) $y)) {
             return "Invalid received_date value (not a real date): '{$row['received_date']}'";
+        }
+
+        if (!is_numeric(trim($row['page_count'] ?? '')) || (int) $row['page_count'] < 1) {
+            return "Invalid page_count (must be a positive integer): '" . ($row['page_count'] ?? '') . "'";
         }
 
         return null;

@@ -42,11 +42,12 @@ class ImportController extends Controller
             'recording_purpose_code',
             'state_code',
             'county_name',
+            'page_count',
         ];
 
         // Build CSV content: header row + one example row
         $csvContent = implode(',', $headers) . "\n";
-        $csvContent .= 'CLIENT001,09-03-2026,DEED,STANDARD,CA,Los Angeles' . "\n";
+        $csvContent .= 'CLIENT001,09-03-2026,DEED,STANDARD,CA,Los Angeles,5' . "\n";
 
         return response($csvContent, 200, [
             'Content-Type' => 'text/csv',
@@ -112,7 +113,7 @@ class ImportController extends Controller
 
         // Build error CSV from the stored errors JSON
         $errors = json_decode($importLog->errors, true);
-        $csvContent = "row,client_code,received_date,doc_type_code,recording_purpose_code,state_code,county_name,error\n";
+        $csvContent = "row,client_code,received_date,doc_type_code,recording_purpose_code,state_code,county_name,page_count,error\n";
 
         foreach ($errors as $error) {
             $row = array_map(fn($v) => '"' . str_replace('"', '""', $v) . '"', $error);

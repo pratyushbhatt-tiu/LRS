@@ -77,11 +77,13 @@ class FeeLine extends Model
         return $this->is_override && !$this->isApproved();
     }
 
-    // Auto-calculate total amount before saving
+    // Auto-calculate total amount before saving, unless it's a manual override
     protected static function booted(): void
     {
         static::saving(function (FeeLine $feeLine) {
-            $feeLine->total_amount = (float) ((float) $feeLine->quantity * (float) $feeLine->unit_price);
+            if (!$feeLine->is_override) {
+                $feeLine->total_amount = (float) ((float) $feeLine->quantity * (float) $feeLine->unit_price);
+            }
         });
     }
 }

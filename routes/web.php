@@ -36,21 +36,24 @@ Route::middleware(['auth', 'permission:files.view'])->prefix('files')->name('fil
 
 // QC Module - QC role only
 Route::middleware(['auth', 'role:QC,Admin'])->prefix('qc')->name('qc.')->group(function () {
-    Route::get('/', function () {
-        return view('qc.index');
-    })->name('index');
-    Route::get('/pending', function () {
-        return view('qc.pending');
-    })->name('pending');
-    // More QC routes will be added in Phase 6
+    Route::get('/', [App\Http\Controllers\QCController::class, 'index'])->name('index');
+    Route::get('/pending', [App\Http\Controllers\QCController::class, 'pending'])->name('pending');
+    Route::get('/{file}/show', [App\Http\Controllers\QCController::class, 'show'])->name('show');
+    Route::post('/{file}/pass', [App\Http\Controllers\QCController::class, 'pass'])->name('pass');
+    Route::post('/{file}/fail', [App\Http\Controllers\QCController::class, 'fail'])->name('fail');
 });
 
 // Accounting Module - Accounting role
 Route::middleware(['auth', 'role:Accounting,Admin'])->prefix('accounting')->name('accounting.')->group(function () {
-    Route::get('/', function () {
-        return view('accounting.index');
-    })->name('index');
-    // More accounting routes will be added in Phase 7
+    Route::get('/', [App\Http\Controllers\AccountingController::class, 'index'])->name('index');
+    Route::get('/pending', [App\Http\Controllers\AccountingController::class, 'pending'])->name('pending');
+    Route::get('/{file}/show', [App\Http\Controllers\AccountingController::class, 'show'])->name('show');
+    Route::post('/{file}/approve', [App\Http\Controllers\AccountingController::class, 'approve'])->name('approve');
+    Route::post('/{file}/return', [App\Http\Controllers\AccountingController::class, 'returnToQC'])->name('return');
+    Route::post('/{file}/page-count', [App\Http\Controllers\AccountingController::class, 'updatePageCount'])->name('update-page-count');
+    Route::post('/{file}/recalculate-fees', [App\Http\Controllers\AccountingController::class, 'recalculateFees'])->name('recalculate-fees');
+    Route::post('/fee-override', [App\Http\Controllers\AccountingController::class, 'overrideFee'])->name('fee-lines.override-static');
+    Route::post('/fee-lines/{feeLine}/override', [App\Http\Controllers\AccountingController::class, 'overrideFee'])->name('fee-lines.override');
 });
 
 // Masters Module - Admin only

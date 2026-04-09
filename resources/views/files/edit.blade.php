@@ -94,7 +94,15 @@
                                     </select>
                                     <x-input-error class="mt-2" :messages="$errors->get('doc_type_id')" />
                                 </div>
-                                <div class="md:col-span-2">
+                                <div class="md:col-span-1">
+                                    <x-input-label for="page_count" :value="__('No. of Pages')"
+                                        class="font-bold text-gray-700" />
+                                    <x-text-input id="page_count" name="page_count" type="number" min="1"
+                                        class="mt-1 block w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm"
+                                        :value="old('page_count', $file->page_count ?? 1)" required />
+                                    <x-input-error class="mt-2" :messages="$errors->get('page_count')" />
+                                </div>
+                                <div class="md:col-span-1">
                                     <x-input-label for="recording_purpose_id" :value="__('Recording Purpose')"
                                         class="font-bold text-gray-700" />
                                     <select id="recording_purpose_id" name="recording_purpose_id"

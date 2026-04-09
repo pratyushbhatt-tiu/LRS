@@ -13,6 +13,7 @@ return [
         'CHECK_IN' => 'CHECK_IN',
         'QC' => 'QC',
         'ACCOUNTING' => 'ACCOUNTING',
+        'ACCOUNTING_APPROVED' => 'ACCOUNTING_APPROVED',
         'SHIPPING' => 'SHIPPING',
         'RECORDING' => 'RECORDING',
         'RETURN' => 'RETURN',
@@ -30,7 +31,8 @@ return [
     'status_transitions' => [
         'CHECK_IN' => ['QC'],
         'QC' => ['ACCOUNTING', 'CHECK_IN'], // Can go back to CHECK_IN if rejected
-        'ACCOUNTING' => ['SHIPPING', 'QC'], // Can go back to QC if issues found
+        'ACCOUNTING' => ['ACCOUNTING_APPROVED', 'QC'], // Can go back to QC if issues found
+        'ACCOUNTING_APPROVED' => ['SHIPPING', 'ACCOUNTING'], // Can go back to ACCOUNTING if changes needed
         'SHIPPING' => ['RECORDING'],
         'RECORDING' => ['RETURN'],
         'RETURN' => ['CLOSED'],
@@ -66,6 +68,13 @@ return [
             'bg_class' => 'bg-purple-100',
             'text_class' => 'text-purple-800',
             'border_class' => 'border-purple-300',
+        ],
+        'ACCOUNTING_APPROVED' => [
+            'label' => 'Fees Approved',
+            'color' => 'emerald',
+            'bg_class' => 'bg-emerald-100',
+            'text_class' => 'text-emerald-800',
+            'border_class' => 'border-emerald-300',
         ],
         'SHIPPING' => [
             'label' => 'Shipping',

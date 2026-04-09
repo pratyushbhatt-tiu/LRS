@@ -19,6 +19,7 @@ class File extends Model
         'county_id',
         'partner_ref_no',
         'received_date',
+        'page_count',
         'current_status',
     ];
 

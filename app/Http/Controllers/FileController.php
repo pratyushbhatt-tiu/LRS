@@ -11,6 +11,7 @@ use App\Models\County;
 use App\Models\FileStatusHistory;
 use App\Http\Requests\StoreFileRequest;
 use App\Services\AuditService;
+use App\Services\FeeCalculationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -136,6 +137,9 @@ class FileController extends Controller
             // Log the creation event for auditing
             AuditService::log('FILE_CREATED', $file, [], $file->toArray());
 
+            // Automated Fee Calculation (Phase 7 Engine)
+            FeeCalculationService::calculate($file);
+
             return redirect()->route('files.show', $file)
                 ->with('success', "File {$fileNo} created with Reference {$partnerRefNo}.");
         });
@@ -253,6 +257,9 @@ class FileController extends Controller
                 'status' => $newStatus,
                 'notes' => $request->notes,
             ]);
+
+            // NOTE: Fees are calculated at creation time and preserved.
+            // Manual recalculation is available on the Accounting page.
 
             return redirect()->route('files.show', $file)
                 ->with('success', "Status updated to {$newStatus}.");

@@ -108,6 +108,7 @@
                                     <th class="px-4 py-3 text-left">Doc Type</th>
                                     <th class="px-4 py-3 text-left">State</th>
                                     <th class="px-4 py-3 text-left">County</th>
+                                    <th class="px-4 py-3 text-left">Pages</th>
                                     <th class="px-4 py-3 text-left">Error</th>
                                 </tr>
                             </thead>
@@ -119,6 +120,7 @@
                                         <td class="px-4 py-3 text-gray-600">{{ $errorRow['doc_type_code'] ?? '-' }}</td>
                                         <td class="px-4 py-3 text-gray-600">{{ $errorRow['state_code'] ?? '-' }}</td>
                                         <td class="px-4 py-3 text-gray-600">{{ $errorRow['county_name'] ?? '-' }}</td>
+                                        <td class="px-4 py-3 text-gray-600 font-bold underline">{{ $errorRow['page_count'] ?? '-' }}</td>
                                         <td class="px-4 py-3 text-red-700 font-medium">{{ $errorRow['error'] }}</td>
                                     </tr>
                                 @endforeach

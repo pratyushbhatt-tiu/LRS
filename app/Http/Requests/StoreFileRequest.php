@@ -26,6 +26,7 @@ class StoreFileRequest extends FormRequest
             'state_id' => ['required', 'exists:states,id'],
             'county_id' => ['required', 'exists:counties,id'],
             'received_date' => ['required', 'date'],
+            'page_count' => ['required', 'integer', 'min:1'],
         ];
     }
 

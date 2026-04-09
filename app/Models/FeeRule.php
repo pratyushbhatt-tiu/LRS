@@ -27,6 +27,7 @@ class FeeRule extends Model
         'rule_name',
         'base_fee',
         'per_page_fee',
+        'surcharge',
         'minimum_fee',
         'maximum_fee',
         'priority',
@@ -43,6 +44,7 @@ class FeeRule extends Model
         return [
             'base_fee' => 'decimal:2',
             'per_page_fee' => 'decimal:2',
+            'surcharge' => 'decimal:2',
             'minimum_fee' => 'decimal:2',
             'maximum_fee' => 'decimal:2',
             'priority' => 'integer',

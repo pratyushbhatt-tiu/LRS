@@ -108,7 +108,13 @@
                                     {{ $file->received_date->format('d-m-Y') }}
                                 </div>
                             </div>
-                            <br>
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-gray-900 uppercase tracking-widest mb-1">{{ __('Number of Pages') }}</label>
+                                <div class="text-base font-bold text-indigo-600">
+                                    {{ $file->page_count ?? 1 }} {{ __('Pages') }}
+                                </div>
+                            </div>
                             <div>
                                 <label
                                     class="block text-xs font-bold text-gray-900 uppercase tracking-widest mb-1">Document
@@ -141,7 +147,6 @@
                                 <div class="text-base font-medium text-gray-700">{{ $file->partner_ref_no ?: 'None' }}
                                 </div>
                             </div>
-                            <br>
                         </div>
                     </div>
 
@@ -154,33 +159,76 @@
                                     ${{ number_format($file->total_fees, 2) }}</span>
                             @endif
                         </div>
-                        <div class="p-6">
+                        <div class="p-0">
                             @if(count($file->feeLines) > 0)
-                                <table class="w-full text-left">
-                                    <thead>
-                                        <tr class="text-xs text-gray-400 uppercase font-bold">
-                                            <th class="pb-4">Description</th>
-                                            <th class="pb-4 text-center">Qty</th>
-                                            <th class="pb-4 text-right">Unit Price</th>
-                                            <th class="pb-4 text-right">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-50">
-                                        @foreach($file->feeLines as $line)
-                                            <tr>
-                                                <td class="py-3 font-medium text-gray-700">{{ $line->description }}</td>
-                                                <td class="py-3 text-center text-gray-600">{{ $line->quantity }}</td>
-                                                <td class="py-3 text-right text-gray-600">
-                                                    ${{ number_format($line->unit_price, 2) }}</td>
-                                                <td class="py-3 text-right font-bold text-gray-900">
-                                                    ${{ number_format($line->total_amount, 2) }}</td>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr class="text-[10px] uppercase tracking-widest text-gray-400 bg-gray-50/50 border-b border-gray-50">
+                                                <th class="px-6 py-4 font-bold">{{ __('Description') }}</th>
+                                                <th class="px-6 py-4 font-bold">{{ __('Rule Source') }}</th>
+                                                <th class="px-6 py-4 font-bold text-center">{{ __('Qty') }}</th>
+                                                <th class="px-6 py-4 font-bold text-right">{{ __('Unit Price') }}</th>
+                                                <th class="px-6 py-4 font-bold text-right">{{ __('Total Amount') }}</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-50">
+                                            @foreach($file->feeLines as $line)
+                                                @php 
+                                                    $classification = 'Basic';
+                                                    if (str_contains(strtolower($line->description), 'surcharge')) $classification = 'Surcharge';
+                                                    if (str_contains(strtolower($line->description), 'page')) $classification = 'Per-Page';
+                                                    if (str_contains(strtolower($line->description), 'base') || str_contains(strtolower($line->description), 'processing')) $classification = 'Base';
+                                                    if (str_contains(strtolower($line->description), 'minimum')) $classification = 'Min Cap';
+                                                    if (str_contains(strtolower($line->description), 'maximum') || str_contains(strtolower($line->description), 'cap discount')) $classification = 'Max Cap';
+
+                                                    $badgeClass = match($classification) {
+                                                        'Surcharge' => 'bg-amber-100 text-amber-700',
+                                                        'Per-Page' => 'bg-blue-100 text-blue-700',
+                                                        'Base' => 'bg-indigo-100 text-indigo-700',
+                                                        'Min Cap' => 'bg-emerald-100 text-emerald-700',
+                                                        'Max Cap' => 'bg-red-100 text-red-700',
+                                                        default => 'bg-gray-100 text-gray-700'
+                                                    };
+                                                @endphp
+                                                <tr class="group/row hover:bg-gray-50/50 transition-colors">
+                                                    <td class="px-6 py-4">
+                                                        <div class="font-bold text-gray-900">{{ $line->description }}</div>
+                                                        <div class="mt-1">
+                                                            <span class="px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest {{ $badgeClass }}">
+                                                                {{ $classification }}
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-6 py-4 text-xs font-medium text-gray-400 uppercase tracking-tight">
+                                                        {{ $line->feeRule ? $line->feeRule->rule_name : __('Manual Override') }}
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center font-mono text-xs text-gray-500">{{ number_format($line->quantity, 2) }}</td>
+                                                    <td class="px-6 py-4 text-right font-mono text-xs text-gray-500">${{ number_format($line->unit_price, 2) }}</td>
+                                                    <td class="px-6 py-4 text-right">
+                                                        <span class="font-black text-gray-900">${{ number_format($line->total_amount, 2) }}</span>
+                                                        @if($line->is_override)
+                                                            <div class="text-[8px] font-black text-amber-500 uppercase tracking-widest mt-0.5">{{ __('Adjusted') }}</div>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="bg-gray-50/30">
+                                                <td colspan="4" class="px-6 py-4 text-right text-[10px] font-black text-gray-400 uppercase tracking-widest">{{ __('Grand Total Calculation') }}</td>
+                                                <td class="px-6 py-4 text-right font-black text-lg text-indigo-600">${{ number_format($file->total_fees, 2) }}</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             @else
-                                <div class="text-center py-8 text-gray-400 italic">
-                                    No fee calculations recorded yet. This will be handled in Phase 7.
+                                <div class="px-6 py-12 text-center">
+                                    <svg class="mx-auto h-12 w-12 text-gray-200 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <p class="text-sm font-bold text-gray-500 mb-1">{{ __('No Fee Calculations Found') }}</p>
+                                    <p class="text-xs text-gray-400">{{ __('No matching fee rules were found for this file\'s client, document type, state, and county combination. Fees will appear here once a matching rule is configured.') }}</p>
                                 </div>
                             @endif
                         </div>
